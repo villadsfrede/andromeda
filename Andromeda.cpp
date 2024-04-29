@@ -1,4 +1,6 @@
+#include <glad/glad.h>
 #include "Andromeda.h"
+
 
 int main()
 {
@@ -7,11 +9,14 @@ int main()
 	// DONT TOUCH THIS //
 	
 	View view;
-
+	
 	if (!view.init())
 	{
 		return 0;
 	}
+
+
+
 
 	while (!glfwWindowShouldClose(view.window))
 	{

@@ -134,6 +134,7 @@
     <ClCompile Include="dependencies\include\render\View.cpp" />
     <ClCompile Include="dependencies\include\simulation\Universe.cpp" />
     <ClCompile Include="glad.c" />
+    <ClCompile Include="ShaderClass.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Andromeda.h" />
@@ -143,6 +144,13 @@
     <ClInclude Include="dependencies\include\KHR\khrplatform.h" />
     <ClInclude Include="dependencies\include\render\View.h" />
     <ClInclude Include="dependencies\include\simulation\Universe.h" />
+    <ClInclude Include="ShaderClass.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Default.vert" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Default.frag" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
