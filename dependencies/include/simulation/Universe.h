@@ -3,7 +3,8 @@
 
 class Universe {
 public:
-	float bodies[3 * 100];
+	float positions[3 * 100] = { 0 };
+	float velocities[3 * 100] = { 0 };
 
 	void generate();
 };

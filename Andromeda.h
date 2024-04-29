@@ -4,7 +4,7 @@
 #include <iostream>
 
 //RENDER
-#include "render/view.h"
+#include "render/View.h"
 
 //SIMULATION
 #include "simulation/Universe.h"

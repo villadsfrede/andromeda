@@ -5,8 +5,8 @@
 
 class View {
 public:
-	unsigned int WIDTH = 1200;
-	unsigned int HEIGHT = 1200;
+	unsigned int WIDTH = 1000;
+	unsigned int HEIGHT = 1000;
 
 	GLFWwindow* window;
 

@@ -3,7 +3,6 @@
 int main()
 {
 	Universe universe;
-	universe.generate();
 
 	// DONT TOUCH THIS //
 	
