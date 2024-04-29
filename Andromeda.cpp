@@ -2,8 +2,6 @@
 
 int main()
 {
-	Universe universe;
-
 	// DONT TOUCH THIS //
 	
 	View view;
@@ -13,11 +11,21 @@ int main()
 		return 0;
 	}
 
+	Shader standard = Shader("dependencies/include/resources/default.vert", "dependencies/include/resources/default.frag");
+
+	Universe universe;
+
+	universe.generate();
+
 	while (!glfwWindowShouldClose(view.window))
 	{
-		glClearColor(0.75f, 0.5f, 0.25f, 1.0f);
+		glClearColor(0.0f, 0.0f, 0.5f, 1.0f);
 
 		glClear(GL_COLOR_BUFFER_BIT);
+
+		standard.useProgram();
+
+		universe.render();
 
 		glfwSwapBuffers(view.window);
 

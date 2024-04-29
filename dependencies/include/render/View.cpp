@@ -1,4 +1,3 @@
-#include <glad/glad.h>
 #include "view.h"
 
 bool View::init()
@@ -27,6 +26,8 @@ bool View::init()
 		glfwTerminate();
 		return false;
 	}
+
+	//glEnable(GL_DEPTH_TEST);
 
 	return true;
 }

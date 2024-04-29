@@ -110,7 +110,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)\dependencies\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;user32.lib;gdi32.lib;shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -131,6 +131,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Andromeda.cpp" />
+    <ClCompile Include="dependencies\include\render\Shader.cpp" />
     <ClCompile Include="dependencies\include\render\View.cpp" />
     <ClCompile Include="dependencies\include\simulation\Universe.cpp" />
     <ClCompile Include="glad.c" />
@@ -141,8 +142,13 @@
     <ClInclude Include="dependencies\include\GLFW\glfw3.h" />
     <ClInclude Include="dependencies\include\GLFW\glfw3native.h" />
     <ClInclude Include="dependencies\include\KHR\khrplatform.h" />
+    <ClInclude Include="dependencies\include\render\Shader.h" />
     <ClInclude Include="dependencies\include\render\View.h" />
     <ClInclude Include="dependencies\include\simulation\Universe.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="dependencies\include\resources\default.frag" />
+    <None Include="dependencies\include\resources\default.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

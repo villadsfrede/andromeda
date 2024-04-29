@@ -1,6 +1,7 @@
 #ifndef ANDROMEDA_VIEW_H
 #define ANDROMEDA_VIEW_H
 
+#include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
 class View {

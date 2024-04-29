@@ -27,6 +27,9 @@
     <ClCompile Include="dependencies\include\simulation\Universe.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="dependencies\include\render\Shader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dependencies\include\glad\glad.h">
@@ -50,5 +53,12 @@
     <ClInclude Include="dependencies\include\simulation\Universe.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="dependencies\include\render\Shader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="dependencies\include\resources\default.vert" />
+    <None Include="dependencies\include\resources\default.frag" />
   </ItemGroup>
 </Project>
