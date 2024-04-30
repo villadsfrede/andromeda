@@ -64,7 +64,7 @@ Shader::Shader(std::string vs, std::string fs)
 	std::cout << "VERTEX STATUS: " << status << std::endl;
 	
 	glCompileShader(fragmentShader);
-	glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &status);
+	glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &status);
 	std::cout << "FRAGMENT STATUS: " << status << std::endl;
 
 	glAttachShader(shaderProgram, vertexShader);

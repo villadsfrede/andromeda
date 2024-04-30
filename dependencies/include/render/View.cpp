@@ -27,7 +27,9 @@ bool View::init()
 		return false;
 	}
 
-	//glEnable(GL_DEPTH_TEST);
+	glEnable(GL_DEPTH_TEST);
+
+	glPointSize(10);
 
 	return true;
 }

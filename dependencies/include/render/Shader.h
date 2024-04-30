@@ -6,8 +6,8 @@
 
 class Shader {
 public:
-	GLuint fragmentShader;
 	GLuint vertexShader;
+	GLuint fragmentShader;
 	GLuint shaderProgram;
 
 	void useProgram();
