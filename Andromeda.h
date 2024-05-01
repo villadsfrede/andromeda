@@ -10,6 +10,7 @@
 //RENDER
 #include "render/View.h"
 #include "render/Shader.h"
+#include "render/Camera.h"
 
 //SIMULATION
 #include "simulation/Universe.h"

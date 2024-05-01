@@ -13,6 +13,8 @@ int main()
 
 	Shader standard = Shader("dependencies/include/resources/default.vert", "dependencies/include/resources/default.frag");
 
+	Camera camera = Camera(0.75, 16 / 9, 0.1, 100);
+
 	Universe universe;
 
 	while (!glfwWindowShouldClose(view.window))
@@ -22,6 +24,10 @@ int main()
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		standard.useProgram();
+
+		camera.input(view.window);
+
+		camera(standard, "camera");
 
 		universe.render();
 
