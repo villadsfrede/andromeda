@@ -29,6 +29,37 @@ void Camera::input(GLFWwindow* window)
 	{
 		position += speed * glm::normalize(glm::cross(orientation, up));
 	}
+	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
+	{
+		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+
+		double mouseX;
+		double mouseY;
+
+		int width;
+		int height;
+
+		glfwGetCursorPos(window, &mouseX, &mouseY);
+		glfwGetWindowSize(window, &width, &height);
+
+		float rotX = sensitivity * (float)(mouseY - (height / 2)) / height;
+		float rotY = sensitivity * (float)(mouseX - (width / 2)) / width;
+
+		glm::vec3 newOrientation = glm::rotate(orientation, glm::radians(-rotX), glm::normalize(glm::cross(orientation, up)));
+
+		if (abs(glm::angle(newOrientation, up) - glm::radians(90.0f)) <= glm::radians(85.0f))
+		{
+			orientation = newOrientation;
+		}
+
+		orientation = glm::rotate(orientation, glm::radians(-rotY), up);
+
+		glfwSetCursorPos(window, (width / 2), (height / 2));
+	}
+	else if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_RELEASE)
+	{
+		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+	}
 }
 
 Camera::Camera(float angle, float aspect, float near, float far)

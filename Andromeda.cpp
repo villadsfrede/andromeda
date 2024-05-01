@@ -13,7 +13,7 @@ int main()
 
 	Shader standard = Shader("dependencies/include/resources/default.vert", "dependencies/include/resources/default.frag");
 
-	Camera camera = Camera(0.75, 16 / 9, 0.1, 100);
+	Camera camera = Camera(0.75, 16 / 9, 0.1, 100e20);
 
 	Universe universe;
 

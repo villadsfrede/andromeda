@@ -4,5 +4,12 @@ out vec4 fColor;
 
 void main()
 {
-	fColor = vec4(0.25, 0.5, 0.75, 1.0);
+	if(dot(gl_PointCoord-0.5,gl_PointCoord-0.5)>0.25)
+	{
+		discard;
+	}
+	else
+	{
+		fColor = vec4(0.25, 0.5, 0.75, 1.0);
+	}
 }
