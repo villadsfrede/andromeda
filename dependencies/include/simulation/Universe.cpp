@@ -4,12 +4,62 @@
 
 void Universe::generate()
 {
-	for (unsigned int i = 0; i < 3 * 100; i = i + 3)
+	for (unsigned int i = 0; i < objects; i++)
 	{
-		positions[i + 0] = (2 * ((float)rand() / (float)RAND_MAX)) - 1;
-		positions[i + 1] = (2 * ((float)rand() / (float)RAND_MAX)) - 1;
-		positions[i + 2] = (2 * ((float)rand() / (float)RAND_MAX)) - 1;
+		positions[3 * i + 0] = (2 * ((float)rand() / (float)RAND_MAX)) - 1;
+		positions[3 * i + 1] = (2 * ((float)rand() / (float)RAND_MAX)) - 1;
+		positions[3 * i + 2] = (2 * ((float)rand() / (float)RAND_MAX)) - 1;
 	}
+
+	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(positions), positions);
+}
+
+void Universe::update()
+{
+	for (size_t i = 0; i < objects; i++) 
+	{
+		float acceleration[3] = { 0 };
+
+		for (size_t j = 0; j < objects; j++)
+		{
+			if (i != j)
+			{
+				float direction[3];
+
+				direction[0] = positions[3 * i + 0] - positions[3 * j + 0];
+				direction[1] = positions[3 * i + 1] - positions[3 * j + 1];
+				direction[2] = positions[3 * i + 2] - positions[3 * j + 2];
+
+				float magnitude = sqrt(direction[0] * direction[0] + direction[1] * direction[1] + direction[2] * direction[2]);
+
+				float unit[3] = {
+					direction[0] / magnitude,
+					direction[1] / magnitude,
+					direction[2] / magnitude,
+				};
+
+				float total = -1.0 * G * masses[j] / (magnitude * magnitude);
+
+				acceleration[0] = acceleration[0] + total * unit[0];
+				acceleration[1] = acceleration[1] + total * unit[1];
+				acceleration[2] = acceleration[2] + total * unit[2];
+			}
+		}
+
+		velocities[3 * i + 0] = velocities[3 * i + 0] + acceleration[0] * dt;
+		velocities[3 * i + 1] = velocities[3 * i + 1] + acceleration[1] * dt;
+		velocities[3 * i + 2] = velocities[3 * i + 2] + acceleration[2] * dt;
+	}
+
+	for (size_t i = 0; i < objects; i++)
+	{
+		positions[3 * i + 0] = positions[3 * i + 0] + velocities[3 * i + 0] * dt;
+		positions[3 * i + 1] = positions[3 * i + 1] + velocities[3 * i + 1] * dt;
+		positions[3 * i + 2] = positions[3 * i + 2] + velocities[3 * i + 2] * dt;
+	}
+
+	t = t + dt;
 
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(positions), positions);
@@ -18,7 +68,7 @@ void Universe::generate()
 void Universe::render()
 {
 	glBindVertexArray(vao);
-	glDrawArrays(GL_POINTS, 0, 100);
+	glDrawArrays(GL_POINTS, 0, objects);
 }
 
 void Universe::cleanup()
