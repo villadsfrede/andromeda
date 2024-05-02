@@ -10,32 +10,15 @@ public:
 	float t = 0;
 	float end = 86400 * 365 * 10;
 
-	float dt = 86400;
+	float dt = 3600;
 
 	float G = 6.67e-11;
 
-	static const int objects = 4;
+	static const int objects = 10;
 	
-	float masses[objects] = {
-		0.1,
-		0.000000000025,
-		0.000000000015,
-		0.000000000005,
-	};
-	
-	float velocities[3 * objects] = {
-		0.0, 0.0, 0.0,
-		0.0, 0.0, 0.0,
-		0.0, 0.0, 0.0,
-		0.0, 0.0, 0.0,
-	};
-	
-	float positions[3 * objects] = { 
-		0.0, 0.0, 0.0,
-		1, 0.0, 0.0,
-		10, 0.0, 0.0,
-		100, 0.0, 0.0,
-	};
+	float masses[objects] = { 0 };
+	float velocities[3 * objects] = { 0 };
+	float positions[3 * objects] = { 0 };
 
 	GLuint vbo, vao;
 

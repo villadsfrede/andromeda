@@ -27,9 +27,8 @@ bool View::init()
 		return false;
 	}
 
+	glEnable(GL_VERTEX_PROGRAM_POINT_SIZE);
 	glEnable(GL_DEPTH_TEST);
-
-	glPointSize(10);
 
 	return true;
 }

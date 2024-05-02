@@ -1,14 +1,17 @@
 #include "Camera.h"
 
-void Camera::operator () (Shader& shader, const char* uniform)
+void Camera::operator () (Shader& shader)
 {
 	glm::mat4 view = glm::mat4(1);
-	glm::mat4 projection = glm::mat4(1);
+	glm::mat4 perspective = glm::mat4(1);
 
 	view = glm::lookAt(position, position + orientation, up);
-	projection = glm::perspective(angle, aspect, near, far);
+	//view = glm::lookAt(position, glm::vec3(0,0,0), up);
+	perspective = glm::perspective(angle, aspect, near, far);
 
-	glUniformMatrix4fv(glGetUniformLocation(shader.shaderProgram, uniform), 1, GL_FALSE, glm::value_ptr(projection * view));
+	glUniformMatrix4fv(glGetUniformLocation(shader.shaderProgram, "view"), 1, GL_FALSE, glm::value_ptr(view));
+	glUniformMatrix4fv(glGetUniformLocation(shader.shaderProgram, "perspective"), 1, GL_FALSE, glm::value_ptr(perspective));
+	glUniform1fv(glGetUniformLocation(shader.shaderProgram, "angle"), 1, &angle);
 }
 
 void Camera::input(GLFWwindow* window)

@@ -1,15 +1,21 @@
 #version 330 core
 
-out vec4 fColor;
+out vec4 color;
 
 void main()
 {
-	if(dot(gl_PointCoord-0.5,gl_PointCoord-0.5)>0.25)
+	vec3 normal;
+
+	normal.xy = gl_PointCoord * 2.0 - vec2(1.0);
+
+	float mag = dot(normal.xy, normal.xy);
+
+	if (mag > 1.0)
 	{
 		discard;
 	}
-	else
-	{
-		fColor = vec4(0.25, 0.5, 0.75, 1.0);
-	}
+
+	normal.z = sqrt(1.0 - mag);
+
+	color = vec4(0.0, 0.0, 0.5, 1.0);
 }

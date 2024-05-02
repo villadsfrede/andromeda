@@ -6,9 +6,11 @@ void Universe::generate()
 {
 	for (unsigned int i = 0; i < objects; i++)
 	{
-		positions[3 * i + 0] = (2 * ((float)rand() / (float)RAND_MAX)) - 1;
-		positions[3 * i + 1] = (2 * ((float)rand() / (float)RAND_MAX)) - 1;
-		positions[3 * i + 2] = (2 * ((float)rand() / (float)RAND_MAX)) - 1;
+		masses[i] = 100;
+
+		positions[3 * i + 0] = (100 * ((float)rand() / (float)RAND_MAX)) - 50;
+		positions[3 * i + 1] = (100 * ((float)rand() / (float)RAND_MAX)) - 50;
+		positions[3 * i + 2] = (100 * ((float)rand() / (float)RAND_MAX)) - 50;
 	}
 
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
@@ -39,7 +41,7 @@ void Universe::update()
 					direction[2] / magnitude,
 				};
 
-				float total = -1.0 * G * masses[j] / (magnitude * magnitude);
+				float total = -1.0 * G * masses[j] / (magnitude * magnitude + 4);
 
 				acceleration[0] = acceleration[0] + total * unit[0];
 				acceleration[1] = acceleration[1] + total * unit[1];
