@@ -1,5 +1,7 @@
 #include "Andromeda.h"
 
+#include "simulation/Octree.h"
+
 int main()
 {
 	// DONT TOUCH THIS //
@@ -11,13 +13,17 @@ int main()
 		return 0;
 	}
 
-	Shader standard = Shader("dependencies/include/resources/default.vert", "dependencies/include/resources/default.frag");
+	Shader sphere = Shader("dependencies/include/resources/default.vert", "dependencies/include/resources/default.frag");
 
-	Camera camera = Camera(0.75, 16 / 9, 0.1, 10e5);
+	Camera camera = Camera(0.75f, 16 / 9, 0.1f, 10e5f);
 
 	Universe universe;
 
 	universe.generate();
+
+	BarnesHut alg = BarnesHut(universe);
+
+	alg.bounds();
 
 	while (!glfwWindowShouldClose(view.window))
 	{
@@ -25,13 +31,11 @@ int main()
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		standard.useProgram();
-
 		camera.input(view.window);
 
-		camera(standard);
+		sphere.useProgram();
 
-		universe.update();
+		camera(sphere);
 
 		universe.render();
 

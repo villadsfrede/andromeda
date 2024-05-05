@@ -6,21 +6,17 @@
 
 class Universe {
 public:
-	float start = 0;
-	float t = 0;
-	float end = 86400 * 365 * 10;
-
 	float dt = 3600;
 
 	float G = 6.67e-11;
 
-	static const int objects = 10;
+	static const int objects = 25000;
 	
-	float masses[objects] = { 0 };
-	float velocities[3 * objects] = { 0 };
-	float positions[3 * objects] = { 0 };
+	float posx[objects] = { 0 };
+	float posy[objects] = { 0 };
+	float posz[objects] = { 0 };
 
-	GLuint vbo, vao;
+	GLuint vbo[3], vao;
 
 	void generate();
 	void update();
@@ -28,6 +24,8 @@ public:
 	void cleanup();
 
 	Universe();
+
+	friend class Octree;
 };
 
 #endif

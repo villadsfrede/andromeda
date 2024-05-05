@@ -1,22 +1,38 @@
 #include <stdlib.h>
 #include <iostream>
+#include <glm/glm.hpp>
 #include "Universe.h"
+#include "Octree.h"
 
 void Universe::generate()
 {
+	float min = 99;
+	float max = 100;
+
+	float PI = 3.1415926535897932385;
+
 	for (unsigned int i = 0; i < objects; i++)
 	{
-		masses[i] = 100;
+		float radial = (max - min) * ((float)rand() / (float)RAND_MAX) + min;
+		float polar = 2 * PI * ((float)rand() / (float)RAND_MAX);
+		float azimuthal = 2 * PI * ((float)rand() / (float)RAND_MAX);
 
-		positions[3 * i + 0] = (100 * ((float)rand() / (float)RAND_MAX)) - 50;
-		positions[3 * i + 1] = (100 * ((float)rand() / (float)RAND_MAX)) - 50;
-		positions[3 * i + 2] = (100 * ((float)rand() / (float)RAND_MAX)) - 50;
+		posx[i] = radial * std::sin(azimuthal) * std::cos(polar);
+		posy[i] = radial * std::sin(azimuthal) * std::sin(polar);
+		posz[i] = radial * std::cos(azimuthal);
 	}
 
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(positions), positions);
+	glBindBuffer(GL_ARRAY_BUFFER, vbo[0]);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(posx), posx);
+
+	glBindBuffer(GL_ARRAY_BUFFER, vbo[1]);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(posy), posy);
+
+	glBindBuffer(GL_ARRAY_BUFFER, vbo[2]);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(posz), posz);
 }
 
+/*
 void Universe::update()
 {
 	for (size_t i = 0; i < objects; i++) 
@@ -61,10 +77,14 @@ void Universe::update()
 		positions[3 * i + 2] = positions[3 * i + 2] + velocities[3 * i + 2] * dt;
 	}
 
-	t = t + dt;
-
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(positions), positions);
+}
+*/
+
+void Universe::update()
+{
+
 }
 
 void Universe::render()
@@ -76,20 +96,38 @@ void Universe::render()
 void Universe::cleanup()
 {
 	glDisableVertexAttribArray(0);
-	glDeleteBuffers(1, &vbo);
+	glDeleteBuffers(3, vbo);
 	glDeleteVertexArrays(1, &vao);
 }
 
 Universe::Universe()
 {
 	glGenVertexArrays(1, &vao);
-	glGenBuffers(1, &vbo);
+	glGenBuffers(3, vbo);
 
 	glBindVertexArray(vao);
 
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(positions), positions, GL_DYNAMIC_DRAW);
+	// POSITION X //
 
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+	glBindBuffer(GL_ARRAY_BUFFER, vbo[0]);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(posx), posx, GL_DYNAMIC_DRAW);
+
+	glVertexAttribPointer(0, 1, GL_FLOAT, GL_FALSE, 0, 0);
 	glEnableVertexAttribArray(0);
+
+	// POSITION Y //
+
+	glBindBuffer(GL_ARRAY_BUFFER, vbo[1]);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(posy), posy, GL_DYNAMIC_DRAW);
+
+	glVertexAttribPointer(1, 1, GL_FLOAT, GL_FALSE, 0, 0);
+	glEnableVertexAttribArray(1);
+
+	// POSITION Z //
+
+	glBindBuffer(GL_ARRAY_BUFFER, vbo[2]);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(posz), posz, GL_DYNAMIC_DRAW);
+
+	glVertexAttribPointer(2, 1, GL_FLOAT, GL_FALSE, 0, 0);
+	glEnableVertexAttribArray(2);
 }
