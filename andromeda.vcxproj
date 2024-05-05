@@ -137,6 +137,7 @@
     <ClCompile Include="dependencies\include\render\View.cpp" />
     <ClCompile Include="dependencies\include\simulation\Algorithm.cpp" />
     <ClCompile Include="dependencies\include\simulation\BarnesHut.cpp" />
+    <ClCompile Include="dependencies\include\simulation\Body.cpp" />
     <ClCompile Include="dependencies\include\simulation\Octree.cpp" />
     <ClCompile Include="dependencies\include\simulation\Universe.cpp" />
     <ClCompile Include="glad.c" />

@@ -2,10 +2,16 @@
 #include <iostream>
 #include <glm/glm.hpp>
 #include "Universe.h"
-#include "Octree.h"
+
+Universe::Universe()
+{
+	algorithm = std::make_unique<BarnesHut>(body);
+}
 
 void Universe::generate()
 {
+	body.clear();
+
 	float min = 99;
 	float max = 100;
 
@@ -17,19 +23,17 @@ void Universe::generate()
 		float polar = 2 * PI * ((float)rand() / (float)RAND_MAX);
 		float azimuthal = 2 * PI * ((float)rand() / (float)RAND_MAX);
 
-		posx[i] = radial * std::sin(azimuthal) * std::cos(polar);
-		posy[i] = radial * std::sin(azimuthal) * std::sin(polar);
-		posz[i] = radial * std::cos(azimuthal);
+		float x = radial * std::sin(azimuthal) * std::cos(polar);
+		float y = radial * std::sin(azimuthal) * std::sin(polar);
+		float z = radial * std::cos(azimuthal);
+
+		body.push_back(std::make_shared<Body>(100, glm::vec3(x, y, z), glm::vec3(0, 0, 0)));
 	}
+}
 
-	glBindBuffer(GL_ARRAY_BUFFER, vbo[0]);
-	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(posx), posx);
-
-	glBindBuffer(GL_ARRAY_BUFFER, vbo[1]);
-	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(posy), posy);
-
-	glBindBuffer(GL_ARRAY_BUFFER, vbo[2]);
-	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(posz), posz);
+void Universe::update()
+{
+	algorithm->update();
 }
 
 /*
@@ -82,6 +86,7 @@ void Universe::update()
 }
 */
 
+/*
 void Universe::update()
 {
 
@@ -131,3 +136,4 @@ Universe::Universe()
 	glVertexAttribPointer(2, 1, GL_FLOAT, GL_FALSE, 0, 0);
 	glEnableVertexAttribArray(2);
 }
+*/

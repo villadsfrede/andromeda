@@ -1,6 +1,6 @@
 #include "Algorithm.h"
 
-Algorithm::Algorithm(Universe& u) : universe(u)
+Algorithm::Algorithm(std::vector<std::shared_ptr<Body>>& b) : body(b)
 {
 	
 }

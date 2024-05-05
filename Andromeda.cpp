@@ -17,13 +17,11 @@ int main()
 
 	Camera camera = Camera(0.75f, 16 / 9, 0.1f, 10e5f);
 
-	Universe universe;
+	Universe u = Universe();
 
-	universe.generate();
+	u.generate();
 
-	BarnesHut alg = BarnesHut(universe);
-
-	alg.bounds();
+	u.update();
 
 	while (!glfwWindowShouldClose(view.window))
 	{
@@ -36,8 +34,6 @@ int main()
 		sphere.useProgram();
 
 		camera(sphere);
-
-		universe.render();
 
 		glfwSwapBuffers(view.window);
 

@@ -11,9 +11,8 @@ public:
 
 	std::unique_ptr<Octree> octree;
 
-	BarnesHut(Universe& u);
+	BarnesHut(std::vector<std::shared_ptr<Body>>& b);
 
-	void bounds();
 	void construct();
 	void update() override;
 };
