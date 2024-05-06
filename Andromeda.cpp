@@ -1,4 +1,5 @@
 #include "Andromeda.h"
+#include "dependencies/include/simulation/Rocket.h"
 
 #include "simulation/Octree.h"
 
@@ -12,6 +13,7 @@ int main()
 	{
 		return 0;
 	}
+	Shader Rocket = Shader("dependencies/include/resources/Rocket.vert", "dependencies/include/resources/Rocket.frag");
 
 	Shader sphere = Shader("dependencies/include/resources/default.vert", "dependencies/include/resources/default.frag");
 
@@ -32,6 +34,8 @@ int main()
 		camera.input(view.window);
 
 		sphere.useProgram();
+
+		Rocket.useProgram();
 
 		camera(sphere);
 

@@ -3,6 +3,11 @@
 #include <glm/glm.hpp>
 #include "Universe.h"
 
+
+
+
+
+
 Universe::Universe()
 {
 	algorithm = std::make_unique<BarnesHut>(body);
@@ -35,8 +40,9 @@ void Universe::update()
 {
 	algorithm->update();
 }
-
 /*
+
+
 void Universe::update()
 {
 	for (size_t i = 0; i < objects; i++) 
@@ -84,9 +90,8 @@ void Universe::update()
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(positions), positions);
 }
-*/
 
-/*
+
 void Universe::update()
 {
 
