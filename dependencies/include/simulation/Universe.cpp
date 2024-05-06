@@ -12,26 +12,28 @@ void Universe::generate()
 {
 	body.clear();
 
-	float min = 99;
-	float max = 100;
+	float min = 0;
+	float max = 10;
 
 	float PI = 3.1415926535897932385;
 
 	for (unsigned int i = 0; i < objects; i++)
 	{
-		float radial = (max - min) * ((float)rand() / (float)RAND_MAX) + min;
-		float polar = 2 * PI * ((float)rand() / (float)RAND_MAX);
-		float azimuthal = 2 * PI * ((float)rand() / (float)RAND_MAX);
+		//float radial = (max - min) * ((float)rand() / (float)RAND_MAX) + min;
+		//float polar = 2 * PI * ((float)rand() / (float)RAND_MAX);
+		//float azimuthal = 2 * PI * ((float)rand() / (float)RAND_MAX);
 
-		float x = radial * std::sin(azimuthal) * std::cos(polar);
-		float y = radial * std::sin(azimuthal) * std::sin(polar);
-		float z = radial * std::cos(azimuthal);
+		//float x = radial * std::sin(azimuthal) * std::cos(polar);
+		//float y = radial * std::sin(azimuthal) * std::sin(polar);
+		//float z = radial * std::cos(azimuthal);
 
-		std::cout << x << std::endl;
-		std::cout << y << std::endl;
-		std::cout << z << std::endl;
+		int x = rand() % 10;
+		int y = rand() % 10;
+		int z = rand() % 10;
 
-		body.push_back(std::make_shared<Body>(100, glm::vec3(x, y, z), glm::vec3(0, 0, 0)));
+		//std::cout << x << " " << y << " " << z << std::endl;
+
+		body.push_back(std::make_shared<Body>(1, glm::vec3(x, y, z), glm::vec3(0, 0, 0)));
 	}
 }
 

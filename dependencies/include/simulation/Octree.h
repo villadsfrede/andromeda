@@ -18,12 +18,15 @@ public:
 
 	std::shared_ptr<Body> body = nullptr;
 
-	std::unique_ptr<Octree> child[8] = { nullptr };
+	std::unique_ptr<Octree> child[8];
+
 
 	Octree(glm::vec3 t, glm::vec3 b);
+	~Octree();
 
 	unsigned short int octant(glm::vec3 p);
 	void insert(std::shared_ptr<Body> b);
+	friend void updatemasscenter(std::unique_ptr<Octree>& root);
 	friend void traverse(std::unique_ptr<Octree>& root);
 };
 

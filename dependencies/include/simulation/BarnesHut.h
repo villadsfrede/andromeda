@@ -9,7 +9,7 @@ public:
 	const float epsilon = 0.5f;
 	const float theta = 0.5f;
 
-	std::unique_ptr<Octree> octree;
+	std::unique_ptr<Octree> octree = nullptr;
 
 	BarnesHut(std::vector<std::shared_ptr<Body>>& b);
 

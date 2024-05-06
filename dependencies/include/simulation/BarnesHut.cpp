@@ -8,19 +8,24 @@ BarnesHut::BarnesHut(std::vector<std::shared_ptr<Body>>& b) : Algorithm(b)
 
 void BarnesHut::construct()
 {
-	glm::vec3 top = glm::vec3(INFINITY, -INFINITY, INFINITY);
-	glm::vec3 bot = glm::vec3(-INFINITY, INFINITY, -INFINITY);
+	glm::vec3 top = glm::vec3(-INFINITY, -INFINITY, -INFINITY);
+	glm::vec3 bot = glm::vec3(INFINITY, INFINITY, INFINITY);
 
 	for (auto& b : body)
 	{
-		top.x = fminf(top.x, b->position.x);
+		top.x = fmaxf(top.x, b->position.x);
 		top.y = fmaxf(top.y, b->position.y);
-		top.z = fminf(top.z, b->position.z);
+		top.z = fmaxf(top.z, b->position.z);
 
-		bot.x = fmaxf(bot.x, b->position.x);
+		bot.x = fminf(bot.x, b->position.x);
 		bot.y = fminf(bot.y, b->position.y);
-		bot.z = fmaxf(bot.z, b->position.z);
+		bot.z = fminf(bot.z, b->position.z);
 	}
+
+	std::cout << "__________" << std::endl;
+	std::cout << top.x << " " << top.y << " " << top.z << std::endl;
+	std::cout << bot.x << " " << bot.y << " " << bot.z << std::endl;
+	std::cout << "__________" << std::endl;
 
 	octree = std::make_unique<Octree>(top, bot);
 
@@ -28,11 +33,13 @@ void BarnesHut::construct()
 	{
 		octree->insert(b);
 	}
-
-	traverse(octree);
 }
 
 void BarnesHut::update()
 {
 	construct();
+
+	updatemasscenter(octree);
+
+	traverse(octree);
 }
