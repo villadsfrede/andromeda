@@ -3,27 +3,28 @@
 
 #include <memory>
 #include <glm/glm.hpp>
+#include "Body.h"
 
 class Octree {
 public:
-	glm::vec3 top;
-	glm::vec3 bot;
+	glm::vec3 top;	// UPPER BOUND
+	glm::vec3 bot;	// LOWER BOUND
 
-	glm::vec3 center;
+	glm::vec3 center = glm::vec3(0,0,0);
 
-	float mass;
+	float mass = 0;
 
-	bool leaf;
+	bool leaf = true;
 
-	unsigned short int body = -1;
+	std::shared_ptr<Body> body = nullptr;
 
 	std::unique_ptr<Octree> child[8] = { nullptr };
 
 	Octree(glm::vec3 t, glm::vec3 b);
 
-	void insert(float x, float y, float z, unsigned short int index);
-
-	unsigned short int octant(float x, float y, float z);
+	unsigned short int octant(glm::vec3 p);
+	void insert(std::shared_ptr<Body> b);
+	friend void traverse(std::unique_ptr<Octree>& root);
 };
 
 #endif

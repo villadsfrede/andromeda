@@ -27,6 +27,10 @@ void Universe::generate()
 		float y = radial * std::sin(azimuthal) * std::sin(polar);
 		float z = radial * std::cos(azimuthal);
 
+		std::cout << x << std::endl;
+		std::cout << y << std::endl;
+		std::cout << z << std::endl;
+
 		body.push_back(std::make_shared<Body>(100, glm::vec3(x, y, z), glm::vec3(0, 0, 0)));
 	}
 }
