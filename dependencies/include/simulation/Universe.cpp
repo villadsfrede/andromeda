@@ -22,28 +22,28 @@ void Universe::generate()
 
 	for (unsigned int i = 0; i < 100; ++i)
 	{
-		//float radial = (max - min) * ((float)rand() / (float)RAND_MAX) + min;
-		//float polar = 2 * PI * ((float)rand() / (float)RAND_MAX);
-		//float azimuthal = 2 * PI * ((float)rand() / (float)RAND_MAX);
+		float radial = (max - min) * ((float)rand() / (float)RAND_MAX) + min;
+		float polar = 2 * PI * ((float)rand() / (float)RAND_MAX);
+		float azimuthal = 2 * PI * ((float)rand() / (float)RAND_MAX);
 
-		//float x = radial * std::sin(azimuthal) * std::cos(polar);
-		//float y = radial * std::sin(azimuthal) * std::sin(polar);
-		//float z = radial * std::cos(azimuthal);
+		float x = radial * std::sin(azimuthal) * std::cos(polar);
+		float y = radial * std::sin(azimuthal) * std::sin(polar);
+		float z = radial * std::cos(azimuthal);
 
-		int x = rand() % 11;
-		int y = rand() % 11;
-		int z = rand() % 11;
+		//int x = rand() % 11;
+		//int y = rand() % 11;
+		//int z = rand() % 11;
 
 		//std::cout << i << " : " << x << " " << y << " " << z << std::endl;
 
-		//body.push_back(std::make_shared<Body>(1, glm::vec3(x, y, z), glm::vec3(0, 0, 0)));
+		body.push_back(std::make_shared<Body>(1, glm::vec3(x, y, z), glm::vec3(0, 0, 0)));
 	}
-	body.push_back(std::make_shared<Body>(1, glm::vec3(0, 0, 0), glm::vec3(0, 0, 0)));
-	body.push_back(std::make_shared<Body>(1, glm::vec3(10, 10, 10), glm::vec3(0, 0, 0)));
+	//body.push_back(std::make_shared<Body>(1, glm::vec3(0, 0, 0), glm::vec3(0, 0, 0)));
+	//body.push_back(std::make_shared<Body>(1, glm::vec3(10, 10, 10), glm::vec3(0, 0, 0)));
 
 	
-	body.push_back(std::make_shared<Body>(1, glm::vec3(8, 1, 5), glm::vec3(0, 0, 0)));
-	body.push_back(std::make_shared<Body>(1, glm::vec3(7, 1, 4), glm::vec3(0, 0, 0)));
+	//body.push_back(std::make_shared<Body>(1, glm::vec3(8, 1, 5), glm::vec3(0, 0, 0)));
+	//body.push_back(std::make_shared<Body>(1, glm::vec3(7, 1, 4), glm::vec3(0, 0, 0)));
 	/*
 	body.push_back(std::make_shared<Body>(1, glm::vec3(0, 0, 0), glm::vec3(0, 0, 0)));
 	body.push_back(std::make_shared<Body>(1, glm::vec3(10, 0, 0), glm::vec3(0, 0, 0)));

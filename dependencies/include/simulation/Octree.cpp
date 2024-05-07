@@ -72,12 +72,12 @@ unsigned short int Octree::octant(glm::vec3 p)
 
 void Octree::insert(std::shared_ptr<Body> b)
 {
-	std::cout << std::endl;
-	std::cout << "inserting: " << b->position.x << " " << b->position.y << " " << b->position.z << std::endl;
-	std::cout << "TOP: " << top.x << " " << top.y << " " << top.z << std::endl;
-	std::cout << "BOT: " << bot.x << " " << bot.y << " " << bot.z << std::endl;
-	std::cout << "OCTANT: " << octant(b->position) << std::endl;
-	std::cout << std::endl;
+	//std::cout << std::endl;
+	//std::cout << "inserting: " << b->position.x << " " << b->position.y << " " << b->position.z << std::endl;
+	//std::cout << "TOP: " << top.x << " " << top.y << " " << top.z << std::endl;
+	//std::cout << "BOT: " << bot.x << " " << bot.y << " " << bot.z << std::endl;
+	//std::cout << "OCTANT: " << octant(b->position) << std::endl;
+	//std::cout << std::endl;
 
 	if (b == nullptr)
 	{
@@ -118,7 +118,7 @@ void Octree::insert(std::shared_ptr<Body> b)
 	{
 		if (child[1] == nullptr)
 		{
-			child[1] = std::make_unique<Octree>(glm::vec3((top.x + bot.x) / 2, (top.y + bot.y) / 2, top.z), glm::vec3(bot.x, bot.y, (top.z + bot.z) / 2));
+			child[1] = std::make_unique<Octree>(glm::vec3(top.x, (top.y + bot.y) / 2, (top.z + bot.z) / 2), glm::vec3((top.x + bot.x) / 2, bot.y, bot.z));
 		}
 		child[1]->insert(b);
 	}
@@ -134,7 +134,7 @@ void Octree::insert(std::shared_ptr<Body> b)
 	{
 		if (child[3] == nullptr)
 		{
-			child[3] = std::make_unique<Octree>(glm::vec3((top.x + bot.x) / 2, top.y, top.z), glm::vec3(bot.x, (top.y + bot.y) / 2, (top.z + bot.z) / 2));
+			child[3] = std::make_unique<Octree>(glm::vec3(top.x, top.y, (top.z + bot.z) / 2), glm::vec3((top.x + bot.x) / 2, (top.y + bot.y) / 2, bot.z));
 		}
 		child[3]->insert(b);
 	}
@@ -142,7 +142,7 @@ void Octree::insert(std::shared_ptr<Body> b)
 	{
 		if (child[4] == nullptr)
 		{
-			child[4] = std::make_unique<Octree>(glm::vec3(top.x, (top.y + bot.y) / 2, (top.z + bot.z) / 2), glm::vec3((top.x + bot.x) / 2, bot.y, bot.z));
+			child[4] = std::make_unique<Octree>(glm::vec3((top.x + bot.x) / 2, (top.y + bot.y) / 2, top.z), glm::vec3(bot.x, bot.y, (top.z + bot.z) / 2));
 		}
 		child[4]->insert(b);
 	}
@@ -158,7 +158,7 @@ void Octree::insert(std::shared_ptr<Body> b)
 	{
 		if (child[6] == nullptr)
 		{
-			child[6] = std::make_unique<Octree>(glm::vec3(top.x, top.y, (top.z + bot.z) / 2), glm::vec3((top.x + bot.x) / 2, (top.y + bot.y) / 2, top.z));
+			child[6] = std::make_unique<Octree>(glm::vec3((top.x + bot.x) / 2, top.y, top.z), glm::vec3(bot.x, (top.y + bot.y) / 2, (top.z + bot.z) / 2));
 		}
 		child[6]->insert(b);
 	}
@@ -170,7 +170,6 @@ void Octree::insert(std::shared_ptr<Body> b)
 		}
 		child[7]->insert(b);
 	}
-
 }
 
 void updatemasscenter(std::unique_ptr<Octree>& root)
@@ -214,4 +213,12 @@ void traverse(std::unique_ptr<Octree>& root)
 	}
 
 	std::cout << "MASS: " << root->mass << std::endl;
+
+	for (auto& c : root->child)
+	{
+		if (c)
+		{
+			traverse(c);
+		}
+	}
 }
