@@ -36,11 +36,15 @@ void Universe::generate()
 
 		//std::cout << i << " : " << x << " " << y << " " << z << std::endl;
 
-		body.push_back(std::make_shared<Body>(1, glm::vec3(x, y, z), glm::vec3(0, 0, 0)));
+		//body.push_back(std::make_shared<Body>(1, glm::vec3(x, y, z), glm::vec3(0, 0, 0)));
 	}
+	body.push_back(std::make_shared<Body>(1, glm::vec3(0, 0, 0), glm::vec3(0, 0, 0)));
+	body.push_back(std::make_shared<Body>(1, glm::vec3(10, 10, 10), glm::vec3(0, 0, 0)));
 
+	
+	body.push_back(std::make_shared<Body>(1, glm::vec3(8, 1, 5), glm::vec3(0, 0, 0)));
+	body.push_back(std::make_shared<Body>(1, glm::vec3(7, 1, 4), glm::vec3(0, 0, 0)));
 	/*
-	body.push_back(std::make_shared<Body>(1, glm::vec3(8, 5, 1), glm::vec3(0, 0, 0)));
 	body.push_back(std::make_shared<Body>(1, glm::vec3(0, 0, 0), glm::vec3(0, 0, 0)));
 	body.push_back(std::make_shared<Body>(1, glm::vec3(10, 0, 0), glm::vec3(0, 0, 0)));
 	body.push_back(std::make_shared<Body>(1, glm::vec3(0, 10, 0), glm::vec3(0, 0, 0)));

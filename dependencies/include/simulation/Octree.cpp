@@ -2,8 +2,12 @@
 
 Octree::Octree(glm::vec3 t, glm::vec3 b)
 {
-	top = t;
-	bot = b;
+	Octree::top = t;
+	Octree::bot = b;
+	center = glm::vec3(-1, -1, -1);
+	mass = 0;
+	leaf = true;
+	body = nullptr;
 }
 
 Octree::~Octree()
@@ -68,10 +72,12 @@ unsigned short int Octree::octant(glm::vec3 p)
 
 void Octree::insert(std::shared_ptr<Body> b)
 {
-	//std::cout << "TOP: " << top.x << " " << top.y << " " << top.z << std::endl;
-	//std::cout << "BOT: " << bot.x << " " << bot.y << " " << bot.z << std::endl;
+	std::cout << std::endl;
 	std::cout << "inserting: " << b->position.x << " " << b->position.y << " " << b->position.z << std::endl;
+	std::cout << "TOP: " << top.x << " " << top.y << " " << top.z << std::endl;
+	std::cout << "BOT: " << bot.x << " " << bot.y << " " << bot.z << std::endl;
 	std::cout << "OCTANT: " << octant(b->position) << std::endl;
+	std::cout << std::endl;
 
 	if (b == nullptr)
 	{
@@ -165,37 +171,6 @@ void Octree::insert(std::shared_ptr<Body> b)
 		child[7]->insert(b);
 	}
 
-	/*
-	if (child[oct] == nullptr)
-	{
-		float width = abs(top.x) + abs(bot.x);
-		float height = abs(top.y) + abs(bot.y);
-		float depth = abs(top.z) + abs(bot.z);
-
-		glm::vec3 c = glm::vec3(bot.x + width / 2, bot.y + height / 2, bot.z + depth / 2);
-
-		switch (oct)
-		{
-		case 0:
-			child[oct] = std::make_unique<Octree>(c, glm::vec3(bot.x, bot.y, bot.z));
-		case 1:
-			child[oct] = std::make_unique<Octree>(c, glm::vec3(bot.x + width, bot.y, bot.z));
-		case 2:
-			child[oct] = std::make_unique<Octree>(glm::vec3(bot.x, bot.y + height, bot.z), c);
-		case 3:
-			child[oct] = std::make_unique<Octree>(glm::vec3(bot.x + width, bot.y + height, bot.z), c);
-		case 4:
-			child[oct] = std::make_unique<Octree>(c, glm::vec3(bot.x, bot.y, bot.z + depth));
-		case 5:
-			child[oct] = std::make_unique<Octree>(c, glm::vec3(bot.x + width, bot.y, bot.z + depth));
-		case 6:
-			child[oct] = std::make_unique<Octree>(glm::vec3(bot.x, bot.y + height, bot.z + depth), c);
-		case 7:
-			child[oct] = std::make_unique<Octree>(glm::vec3(bot.x + width, bot.y + height, bot.z + depth), c);
-		}
-	}
-	child[oct]->insert(b);
-	*/
 }
 
 void updatemasscenter(std::unique_ptr<Octree>& root)
@@ -240,51 +215,3 @@ void traverse(std::unique_ptr<Octree>& root)
 
 	std::cout << "MASS: " << root->mass << std::endl;
 }
-
-/*
-void Octree::insert(float x, float y, float z, unsigned short int index)
-{
-	if (leaf)
-	{
-		body = index;
-		return;
-	}
-
-	
-
-	leaf = false;
-
-	unsigned short int o = octant(x, y, z);
-
-	if (child[o] == nullptr)
-	{
-		float width = top.x + bot.x;
-		float height = top.y + bot.y;
-		float depth = top.z + bot.z;
-
-		glm::vec3 c = glm::vec3(bot.x + width / 2, bot.y + height / 2, bot.z + depth / 2);
-
-		switch (o)
-		{
-		case 0:
-			child[o] = std::make_unique<Octree>(c, glm::vec3(bot.x, bot.y, bot.z));
-		case 1:
-			child[o] = std::make_unique<Octree>(c, glm::vec3(bot.x + width, bot.y, bot.z));
-		case 2:
-			child[o] = std::make_unique<Octree>(glm::vec3(bot.x, bot.y + height, bot.z), c);
-		case 3:
-			child[o] = std::make_unique<Octree>(glm::vec3(bot.x + width, bot.y + height, bot.z), c);
-		case 4:
-			child[o] = std::make_unique<Octree>(c, glm::vec3(bot.x, bot.y, bot.z + depth));
-		case 5:
-			child[o] = std::make_unique<Octree>(c, glm::vec3(bot.x + width, bot.y, bot.z + depth));
-		case 6:
-			child[o] = std::make_unique<Octree>(glm::vec3(bot.x, bot.y + height, bot.z + depth), c);
-		case 7:
-			child[o] = std::make_unique<Octree>(glm::vec3(bot.x + width, bot.y + height, bot.z + depth), c);
-		}
-
-		child[o]->insert(x, y, z, index);
-	}
-}
-*/

@@ -10,15 +10,15 @@ public:
 	glm::vec3 top;	// UPPER BOUND
 	glm::vec3 bot;	// LOWER BOUND
 
-	glm::vec3 center = glm::vec3(0,0,0);
+	glm::vec3 center;
 
-	float mass = 0;
+	float mass;
 
-	bool leaf = true;
+	bool leaf;
 
-	std::shared_ptr<Body> body = nullptr;
+	std::shared_ptr<Body> body;
 
-	std::unique_ptr<Octree> child[8];
+	std::unique_ptr<Octree> child[8] = { nullptr };
 
 
 	Octree(glm::vec3 t, glm::vec3 b);
