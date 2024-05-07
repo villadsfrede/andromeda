@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <cstdlib>
 #include <iostream>
 #include <glm/glm.hpp>
 #include "Universe.h"
@@ -12,12 +13,14 @@ void Universe::generate()
 {
 	body.clear();
 
-	float min = 0;
-	float max = 10;
+	float min = 1000;
+	float max = 1000000;
 
 	float PI = 3.1415926535897932385;
 
-	for (unsigned int i = 0; i < objects; i++)
+	srand(0);
+
+	for (unsigned int i = 0; i < 100; ++i)
 	{
 		//float radial = (max - min) * ((float)rand() / (float)RAND_MAX) + min;
 		//float polar = 2 * PI * ((float)rand() / (float)RAND_MAX);
@@ -27,14 +30,26 @@ void Universe::generate()
 		//float y = radial * std::sin(azimuthal) * std::sin(polar);
 		//float z = radial * std::cos(azimuthal);
 
-		int x = rand() % 10;
-		int y = rand() % 10;
-		int z = rand() % 10;
+		int x = rand() % 11;
+		int y = rand() % 11;
+		int z = rand() % 11;
 
-		//std::cout << x << " " << y << " " << z << std::endl;
+		//std::cout << i << " : " << x << " " << y << " " << z << std::endl;
 
 		body.push_back(std::make_shared<Body>(1, glm::vec3(x, y, z), glm::vec3(0, 0, 0)));
 	}
+
+	/*
+	body.push_back(std::make_shared<Body>(1, glm::vec3(8, 5, 1), glm::vec3(0, 0, 0)));
+	body.push_back(std::make_shared<Body>(1, glm::vec3(0, 0, 0), glm::vec3(0, 0, 0)));
+	body.push_back(std::make_shared<Body>(1, glm::vec3(10, 0, 0), glm::vec3(0, 0, 0)));
+	body.push_back(std::make_shared<Body>(1, glm::vec3(0, 10, 0), glm::vec3(0, 0, 0)));
+	body.push_back(std::make_shared<Body>(1, glm::vec3(10, 10, 0), glm::vec3(0, 0, 0)));
+	body.push_back(std::make_shared<Body>(1, glm::vec3(0, 0, 10), glm::vec3(0, 0, 0)));
+	body.push_back(std::make_shared<Body>(1, glm::vec3(10, 0, 10), glm::vec3(0, 0, 0)));
+	body.push_back(std::make_shared<Body>(1, glm::vec3(0, 10, 10), glm::vec3(0, 0, 0)));
+	body.push_back(std::make_shared<Body>(1, glm::vec3(10, 10, 10), glm::vec3(0, 0, 0)));
+	*/
 }
 
 void Universe::update()

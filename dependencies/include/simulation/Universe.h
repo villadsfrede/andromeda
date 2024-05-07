@@ -17,7 +17,7 @@ private:
 	std::unique_ptr<Algorithm> algorithm;
 
 public:
-	static const int objects = 12;
+	static const int objects = 0;
 
 	std::vector<std::shared_ptr<Body>> body;
 
