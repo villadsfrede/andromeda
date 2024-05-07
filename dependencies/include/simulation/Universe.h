@@ -12,12 +12,14 @@
 
 class Universe {
 private:
-	GLuint vbo[3], vao;
+	GLuint vao, vbo;
+
+	std::vector<float> m_vertices;
 
 	std::unique_ptr<Algorithm> algorithm;
 
 public:
-	static const int objects = 0;
+	static const int objects = 1000;
 
 	std::vector<std::shared_ptr<Body>> body;
 

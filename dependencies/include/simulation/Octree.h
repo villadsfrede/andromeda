@@ -26,7 +26,7 @@ public:
 
 	unsigned short int octant(glm::vec3 p);
 	void insert(std::shared_ptr<Body> b);
-	friend void updatemasscenter(std::unique_ptr<Octree>& root);
+	friend void calculate(std::unique_ptr<Octree>& root);
 	friend void traverse(std::unique_ptr<Octree>& root);
 };
 

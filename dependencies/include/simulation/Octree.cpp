@@ -4,7 +4,7 @@ Octree::Octree(glm::vec3 t, glm::vec3 b)
 {
 	Octree::top = t;
 	Octree::bot = b;
-	center = glm::vec3(-1, -1, -1);
+	center = glm::vec3(0, 0, 0);
 	mass = 0;
 	leaf = true;
 	body = nullptr;
@@ -172,7 +172,7 @@ void Octree::insert(std::shared_ptr<Body> b)
 	}
 }
 
-void updatemasscenter(std::unique_ptr<Octree>& root)
+void calculate(std::unique_ptr<Octree>& root)
 {
 
 	if (!root)
@@ -189,20 +189,23 @@ void updatemasscenter(std::unique_ptr<Octree>& root)
 
 	for (auto& c : root->child)
 	{
-		updatemasscenter(c);
+		calculate(c);
 	}
 
 	float mass = 0;
+	glm::vec3 center = glm::vec3(0, 0, 0);
 
 	for (auto& c : root->child)
 	{
 		if (c)
 		{
 			mass = mass + c->mass;
+			center = center + c->center * c->mass;
 		}
 	}
 
 	root->mass = mass;
+	root->center = center / mass;
 }
 
 void traverse(std::unique_ptr<Octree>& root)
@@ -213,6 +216,7 @@ void traverse(std::unique_ptr<Octree>& root)
 	}
 
 	std::cout << "MASS: " << root->mass << std::endl;
+	std::cout << "CENTER: " << root->center.x << " " << root->center.y << " " << root->center.y << std::endl;
 
 	for (auto& c : root->child)
 	{

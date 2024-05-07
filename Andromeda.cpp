@@ -35,6 +35,8 @@ int main()
 
 		camera(sphere);
 
+		u.render();
+
 		glfwSwapBuffers(view.window);
 
 		glfwPollEvents();

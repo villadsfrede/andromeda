@@ -6,7 +6,7 @@ BarnesHut::BarnesHut(std::vector<std::shared_ptr<Body>>& b) : Algorithm(b)
 
 }
 
-void BarnesHut::construct()
+void BarnesHut::create()
 {
 	glm::vec3 top = glm::vec3(-INFINITY, -INFINITY, -INFINITY);
 	glm::vec3 bot = glm::vec3(INFINITY, INFINITY, INFINITY);
@@ -28,7 +28,10 @@ void BarnesHut::construct()
 	std::cout << "__________" << std::endl;
 
 	octree = std::make_unique<Octree>(top, bot);
+}
 
+void BarnesHut::build()
+{
 	for (auto& b : body)
 	{
 		octree->insert(b);
@@ -37,9 +40,11 @@ void BarnesHut::construct()
 
 void BarnesHut::update()
 {
-	construct();
+	create();
 
-	updatemasscenter(octree);
+	build();
+
+	calculate(octree);
 
 	traverse(octree);
 }

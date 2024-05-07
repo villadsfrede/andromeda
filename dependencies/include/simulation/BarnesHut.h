@@ -13,7 +13,10 @@ public:
 
 	BarnesHut(std::vector<std::shared_ptr<Body>>& b);
 
-	void construct();
+	void create();
+	void build();
+	void updateVelocity();
+	void updatePosition();
 	void update() override;
 };
 
