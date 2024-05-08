@@ -14,7 +14,7 @@ Universe::Universe()
 	glBindVertexArray(vao);
 
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * objects * 3, nullptr, GL_DYNAMIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), nullptr, GL_DYNAMIC_DRAW);
 
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
 	glEnableVertexAttribArray(0);
@@ -24,16 +24,11 @@ void Universe::generate()
 {
 	body.clear();
 
-	float min = 10;
-	float max = 1000;
-
-	float PI = 3.1415926535897932385;
-
 	srand(0);
 
-	for (unsigned int i = 0; i < 100; ++i)
+	for (unsigned int i = 0; i < OBJECTS; i++)
 	{
-		float radial = (max - min) * ((float)rand() / (float)RAND_MAX) + min;
+		float radial = (MAX - MIN) * ((float)rand() / (float)RAND_MAX) + MIN;
 		float polar = 2 * PI * ((float)rand() / (float)RAND_MAX);
 		float azimuthal = 2 * PI * ((float)rand() / (float)RAND_MAX);
 
@@ -41,7 +36,7 @@ void Universe::generate()
 		float y = radial * std::sin(azimuthal) * std::sin(polar);
 		float z = radial * std::cos(azimuthal);
 
-		body.push_back(std::make_shared<Body>(1, glm::vec3(x, y, z), glm::vec3(0, 0, 0)));
+		body.push_back(std::make_shared<Body>(MEARTH, glm::vec3(x, y, z), glm::vec3(0, 0, 0), glm::vec3(0, 0, 0)));
 	}
 }
 
@@ -49,21 +44,35 @@ void Universe::update()
 {
 	algorithm->update();
 
+	unsigned int i = 0;
+
+	float xScale = DWIDTH / SWIDTH;
+	float yScale = DHEIGHT / SHEIGHT;
+	float zScale = DDEPTH / SDEPTH;
+
+	//std::cout << xScale << std::endl;
+	//std::cout << yScale << std::endl;
+	//std::cout << zScale << std::endl;
+
 	for (auto& b : body)
 	{
-		m_vertices.push_back(b->position.x);
-		m_vertices.push_back(b->position.y);
-		m_vertices.push_back(b->position.z);
+		vertices[i * 3 + 0] = b->position.x * xScale;
+		vertices[i * 3 + 1] = b->position.y * yScale;
+		vertices[i * 3 + 2] = b->position.z * zScale;
+
+		//std::cout << vertices[i * 3 + 0] << " " << vertices[i * 3 + 1] << " " << vertices[i * 3 + 2] << std::endl;
+
+		i++;
 	}
 
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float) * m_vertices.size(), &m_vertices[0]);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
 }
 
 void Universe::render()
 {
 	glBindVertexArray(vao);
-	glDrawArrays(GL_POINTS, 0, objects);
+	glDrawArrays(GL_POINTS, 0, OBJECTS);
 }
 
 void Universe::cleanup()

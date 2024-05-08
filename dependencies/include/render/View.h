@@ -4,10 +4,12 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+#include "simulation/Config.h"
+
 class View {
 public:
-	unsigned int WIDTH = 1000;
-	unsigned int HEIGHT = 1000;
+	//unsigned int width = WWIDTH;
+	unsigned int height = WHEIGHT;
 
 	GLFWwindow* window;
 

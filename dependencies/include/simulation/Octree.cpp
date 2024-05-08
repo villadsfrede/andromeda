@@ -215,8 +215,8 @@ void traverse(std::unique_ptr<Octree>& root)
 		return;
 	}
 
-	std::cout << "MASS: " << root->mass << std::endl;
-	std::cout << "CENTER: " << root->center.x << " " << root->center.y << " " << root->center.y << std::endl;
+	//std::cout << "MASS: " << root->mass << std::endl;
+	//std::cout << "CENTER: " << root->center.x << " " << root->center.y << " " << root->center.y << std::endl;
 
 	for (auto& c : root->child)
 	{

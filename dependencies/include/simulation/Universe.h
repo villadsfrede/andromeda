@@ -6,6 +6,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+#include "Config.h"
 #include "Body.h"
 #include "Algorithm.h"
 #include "BarnesHut.h"
@@ -14,12 +15,10 @@ class Universe {
 private:
 	GLuint vao, vbo;
 
-	std::vector<float> m_vertices;
-
 	std::unique_ptr<Algorithm> algorithm;
 
 public:
-	static const int objects = 1000;
+	float vertices[OBJECTS * 3] = { 0 };
 
 	std::vector<std::shared_ptr<Body>> body;
 
