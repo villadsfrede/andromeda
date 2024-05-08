@@ -2,15 +2,15 @@
 #define ANDROMEDA_OCTREE_H
 
 #include <memory>
-#include <glm/glm.hpp>
+#include "Vector.h"
 #include "Body.h"
 
 class Octree {
 public:
-	glm::vec3 top;	// UPPER BOUND
-	glm::vec3 bot;	// LOWER BOUND
+	Vector top;	// UPPER BOUND
+	Vector bot;	// LOWER BOUND
 
-	glm::vec3 center;
+	Vector center;
 
 	float mass;
 
@@ -21,10 +21,10 @@ public:
 	std::unique_ptr<Octree> child[8] = { nullptr };
 
 
-	Octree(glm::vec3 t, glm::vec3 b);
+	Octree(Vector t, Vector b);
 	~Octree();
 
-	unsigned short int octant(glm::vec3 p);
+	unsigned short int octant(Vector p);
 	void insert(std::shared_ptr<Body> b);
 	friend void calculate(std::unique_ptr<Octree>& root);
 	friend void traverse(std::unique_ptr<Octree>& root);

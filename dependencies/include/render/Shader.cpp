@@ -61,16 +61,16 @@ Shader::Shader(std::string vs, std::string fs)
 
 	glCompileShader(vertexShader);
 	glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &status);
-	std::cout << "VERTEX STATUS: " << status << std::endl;
+	//std::cout << "VERTEX STATUS: " << status << std::endl;
 	
 	glCompileShader(fragmentShader);
 	glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &status);
-	std::cout << "FRAGMENT STATUS: " << status << std::endl;
+	//std::cout << "FRAGMENT STATUS: " << status << std::endl;
 
 	glAttachShader(shaderProgram, vertexShader);
 	glAttachShader(shaderProgram, fragmentShader);
 
 	glLinkProgram(shaderProgram);
 	glGetProgramiv(shaderProgram, GL_LINK_STATUS, &status);
-	std::cout << "LINKING STATUS: " << status << std::endl;
+	//std::cout << "LINKING STATUS: " << status << std::endl;
 }

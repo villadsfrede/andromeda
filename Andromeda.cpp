@@ -19,9 +19,17 @@ int main()
 
 	Universe u = Universe();
 
+	//Vector v = Vector(0, 0, 0);
+	//Vector u = Vector(1, 0, 0);
+	//Vector w = v + u;
+
+	//std::cout << "(" << w.x << "," << w.y << "," << w.z << ")" << std::endl;
+	//std::cout << (v != u) << std::endl;
+	//std::cout << Distance(v, u) << std::endl;
+
 	u.generate();
 
-	u.update();
+	
 
 	while (!glfwWindowShouldClose(view.window))
 	{
@@ -35,7 +43,10 @@ int main()
 
 		camera(sphere);
 
-		u.update();
+		if (glfwGetKey(view.window, GLFW_KEY_SPACE) == GLFW_PRESS)
+		{
+			u.update();
+		}
 
 		u.render();
 

@@ -142,6 +142,7 @@
     <ClCompile Include="dependencies\include\simulation\Body.cpp" />
     <ClCompile Include="dependencies\include\simulation\Octree.cpp" />
     <ClCompile Include="dependencies\include\simulation\Universe.cpp" />
+    <ClCompile Include="dependencies\include\simulation\Vector.cpp" />
     <ClCompile Include="glad.c" />
   </ItemGroup>
   <ItemGroup>
@@ -441,6 +442,7 @@
     <ClInclude Include="dependencies\include\simulation\Config.h" />
     <ClInclude Include="dependencies\include\simulation\Octree.h" />
     <ClInclude Include="dependencies\include\simulation\Universe.h" />
+    <ClInclude Include="dependencies\include\simulation\Vector.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="dependencies\include\glm\detail\func_common.inl" />

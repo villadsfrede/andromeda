@@ -8,18 +8,18 @@ BarnesHut::BarnesHut(std::vector<std::shared_ptr<Body>>& b) : Algorithm(b)
 
 void BarnesHut::create()
 {
-	glm::vec3 top = glm::vec3(-INFINITY, -INFINITY, -INFINITY);
-	glm::vec3 bot = glm::vec3(INFINITY, INFINITY, INFINITY);
+	Vector top = Vector(-INFINITY, -INFINITY, -INFINITY);
+	Vector bot = Vector(INFINITY, INFINITY, INFINITY);
 
 	for (auto& b : body)
 	{
-		top.x = fmaxf(top.x, b->position.x);
-		top.y = fmaxf(top.y, b->position.y);
-		top.z = fmaxf(top.z, b->position.z);
+		top.x = std::max(top.x, b->position.x);
+		top.y = std::max(top.y, b->position.y);
+		top.z = std::max(top.z, b->position.z);
 
-		bot.x = fminf(bot.x, b->position.x);
-		bot.y = fminf(bot.y, b->position.y);
-		bot.z = fminf(bot.z, b->position.z);
+		bot.x = std::min(bot.x, b->position.x);
+		bot.y = std::min(bot.y, b->position.y);
+		bot.z = std::min(bot.z, b->position.z);
 	}
 
 	//std::cout << "__________" << std::endl;
@@ -47,32 +47,43 @@ void BarnesHut::calculateForce(std::unique_ptr<Octree>& root, std::shared_ptr<Bo
 
 	if (root->body)
 	{
+		if (b == root->body)
+		{
+			return;
+		}
+
 		Body& bi = *b;
 		Body& bj = *root->body;
 
-		glm::vec3 rij = bj.position - bi.position;
+		Vector bibj = bj.position - bi.position;
 
-		float r = sqrt((rij.x * rij.x) + (rij.y * rij.y) + (rij.z * rij.z) + (epsilon * epsilon));
+		double r = Distance(bi.position, bj.position) + (epsilon * epsilon);
 
-		glm::vec3 force = rij * (float)((G * bi.mass * bj.mass) / (r * r * r + (epsilon * epsilon)));
+		double F = G * (bi.mass * bj.mass) / ((r * r) + (epsilon * epsilon));
 
-		bi.acceleration = bi.acceleration + (force / bi.mass);
+		double a = F / bi.mass;
+
+		bi.acceleration = bi.acceleration + Normalize(bibj) * a;
+
+		return;
 	}
 
-	float width = root->bot.x - root->top.x;
-	float distance = glm::distance(b->position, root->center);
+	float width = Distance(root->top, root->bot);
+	float distance = Distance(b->position, root->center);
 
 	if (width / distance < theta)
 	{
 		Body& bi = *b;
 
-		glm::vec3 rij = root->center - bi.position;
+		Vector bic = root->center - bi.position;
 
-		float r = sqrt((rij.x * rij.x) + (rij.y * rij.y) + (rij.z * rij.z) + (epsilon * epsilon));
+		double r = Distance(bi.position, root->center);
 
-		glm::vec3 force = rij * (float)((6.67E-11 * bi.mass * root->mass) / (r * r * r + (epsilon * epsilon)));
+		double F = G * (bi.mass * root->mass) / ((r * r) + (epsilon * epsilon));
 
-		bi.acceleration = bi.acceleration + (force / bi.mass);
+		double a = F / bi.mass;
+
+		bi.acceleration = bi.acceleration + Normalize(bic) * a;
 
 		return;
 	}
@@ -87,9 +98,14 @@ void BarnesHut::updateAcceleration()
 {
 	for (auto& b : body)
 	{
-		b->acceleration = glm::vec3(0, 0, 0);
+		if (b->dynamic)
+		{
+			b->acceleration = Vector(0,0,0);
 
-		calculateForce(octree, b);
+			calculateForce(octree, b);
+			
+			//std::cout << b->acceleration.x << " " << b->acceleration.y << " " << b->acceleration.z << std::endl;
+		}
 	}
 }
 
@@ -98,6 +114,8 @@ void BarnesHut::updateVelocity()
 	for (auto& b : body)
 	{
 		b->velocity = b->velocity + b->acceleration * (float)DT;
+
+		//std::cout << b->velocity.x << " " << b->velocity.y << " " << b->velocity.z << std::endl;
 	}
 }
 
@@ -106,6 +124,8 @@ void BarnesHut::updatePosition()
 	for (auto& b : body)
 	{
 		b->position = b->position + b->velocity * (float)DT;
+
+		//std::cout << b->position.x << " " << b->position.y << " " << b->position.z << std::endl;
 	}
 }
 
@@ -116,6 +136,8 @@ void BarnesHut::update()
 	build();
 
 	calculate(octree);
+
+	//std::cout << octree->center.x << " " << octree->center.y << " " << octree->center.z << std::endl;
 
 	updateAcceleration();
 	updateVelocity();

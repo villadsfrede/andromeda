@@ -1,18 +1,19 @@
 #ifndef ANDROMEDA_BODY_H
 #define ANDROMEDA_BODY_H
 
-#include <iostream>
-#include <glm/glm.hpp>
+#include "Vector.h"
 
 class Body {
 public:
-	float mass;
+	double mass;
 	
-	glm::vec3 position;
-	glm::vec3 velocity;
-	glm::vec3 acceleration;
+	Vector position;
+	Vector velocity;
+	Vector acceleration;
 
-	Body(float m, glm::vec3 p, glm::vec3 v, glm::vec3 a);
+	bool dynamic;
+
+	Body(double m, Vector p, Vector v, Vector a, bool d);
 };
 
 #endif
