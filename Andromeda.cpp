@@ -15,38 +15,23 @@ int main()
 
 	Shader sphere = Shader("dependencies/include/resources/default.vert", "dependencies/include/resources/default.frag");
 
-	Camera camera = Camera(0.75f, 16 / 9, 0.1f, 10e5f);
+	view.camera = std::make_unique<Camera>(0.75f, 16 / 9, 0.1f, 10e5f);
 
 	Universe u = Universe();
 
-	Vector v = Vector(10, 3, 5);
-	//Vector u = Vector(1, 0, 0);
-	//Vector w = v + u;
-
-	std::cout << std::pow(Length(v), 3) << std::endl;
-	std::cout << std::pow(ABG(v), 3) << std::endl;
-
-	std::cout << pow(InverseSquare(v.x * v.x + v.y * v.y + v.z * v.z), -1) << std::endl;
-
-	//std::cout << "(" << w.x << "," << w.y << "," << w.z << ")" << std::endl;
-	//std::cout << (v != u) << std::endl;
-	//std::cout << Distance(v, u) << std::endl;
-
 	u.generate();
-
-	
 
 	while (!glfwWindowShouldClose(view.window))
 	{
-		glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+		glClearColor(view.bg[0], view.bg[1], view.bg[2], view.bg[3]);
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		camera.input(view.window);
+		view.camera->input(view.window);
 
 		sphere.useProgram();
 
-		camera(sphere);
+		view.camera->uniform(sphere);
 
 		if (glfwGetKey(view.window, GLFW_KEY_SPACE) == GLFW_PRESS)
 		{
@@ -54,6 +39,8 @@ int main()
 		}
 
 		u.render();
+
+		view.renderUI();
 
 		glfwSwapBuffers(view.window);
 

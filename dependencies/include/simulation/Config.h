@@ -15,6 +15,6 @@ static const double PI	= 3.1415926535897932385;
 static const double MEARTH = 5.9724e24;
 static const double MSUN = 1.989e30;
 
-static const unsigned short int OBJECTS = 2500;
+static const unsigned short int OBJECTS = 1000;
 
 #endif

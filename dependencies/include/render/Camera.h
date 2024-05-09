@@ -25,7 +25,7 @@ public:
 	float speed = 1;
 	float sensitivity = 100;
 
-	void operator () (Shader& shader);
+	void uniform(Shader& shader);
 
 	void input(GLFWwindow* window);
 

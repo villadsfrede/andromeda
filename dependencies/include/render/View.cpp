@@ -11,7 +11,7 @@ bool View::init()
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	window = glfwCreateWindow(WWIDTH, height, "ANDROMEDA", NULL, NULL);
+	window = glfwCreateWindow(WWIDTH, WHEIGHT, "ANDROMEDA", NULL, NULL);
 
 	if (!window)
 	{
@@ -27,10 +27,40 @@ bool View::init()
 		return false;
 	}
 
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGuiIO& io = ImGui::GetIO(); (void)io;
+	ImGui::StyleColorsDark();
+	ImGui_ImplGlfw_InitForOpenGL(window, true);
+	ImGui_ImplOpenGL3_Init("#version 330");
+
 	glEnable(GL_VERTEX_PROGRAM_POINT_SIZE);
 	glEnable(GL_DEPTH_TEST);
 
 	return true;
+}
+
+void View::renderUI()
+{
+	ImGui_ImplOpenGL3_NewFrame();
+	ImGui_ImplGlfw_NewFrame();
+	ImGui::NewFrame();
+
+	ImGui::Begin("View");
+	ImGui::Text("FPS = %f", ImGui::GetIO().Framerate);
+	ImGui::ColorEdit4("Background color", bg);
+	ImGui::End();
+
+	ImGui::Begin("Camera");
+	ImGui::Text("Position = (%f, %f, %f)", camera->position.x, camera->position.y, camera->position.z);
+	ImGui::Text("Orientation = (%f, %f, %f)", camera->orientation.x, camera->orientation.y, camera->orientation.z);
+	ImGui::Text("Up = (%f, %f, %f)", camera->up.x, camera->up.y, camera->up.z);
+	ImGui::SliderFloat("Speed", &camera->speed, 0.1f, 10.0f);
+	ImGui::SliderFloat("Sensitivity", &camera->sensitivity, 1.0f, 100.0f);
+	ImGui::End();
+
+	ImGui::Render();
+	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
 
 void View::cleanup()
