@@ -70,7 +70,9 @@ void BarnesHut::calculateForce(std::unique_ptr<Octree>& root, std::shared_ptr<Bo
 		return;
 	}
 
-	float width = DistanceSquared(root->top, root->bot);
+	//float width = DistanceSquared(root->top, root->bot);
+	//float width = (root->bot.x - root->top.x) * (root->bot.x - root->top.x);
+	float width = (root->top.x - root->bot.x) * (root->top.x - root->bot.x);
 	float distance = DistanceSquared(b->position, root->center);
 
 	if (width / distance < (theta * theta))
