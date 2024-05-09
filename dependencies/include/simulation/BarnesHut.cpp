@@ -57,40 +57,47 @@ void BarnesHut::calculateForce(std::unique_ptr<Octree>& root, std::shared_ptr<Bo
 
 		Vector bibj = bj.position - bi.position;
 
-		double r = Distance(bi.position, bj.position) + (epsilon * epsilon);
+		//double r = DistanceSquared(bi.position, bj.position);
 
-		double F = G * (bi.mass * bj.mass) / ((r * r) + (epsilon * epsilon));
+		double r = 1 / InverseSquare(bibj.x * bibj.x + bibj.y * bibj.y + bibj.z * bibj.z);
+
+		double F = (G * bi.mass * bj.mass) / (r * r * r + epsilon);
 
 		double a = F / bi.mass;
 
-		bi.acceleration = bi.acceleration + Normalize(bibj) * a;
+		bi.acceleration = bi.acceleration + bibj * a;
 
 		return;
 	}
 
-	float width = Distance(root->top, root->bot);
-	float distance = Distance(b->position, root->center);
+	float width = DistanceSquared(root->top, root->bot);
+	float distance = DistanceSquared(b->position, root->center);
 
-	if (width / distance < theta)
+	if (width / distance < (theta * theta))
 	{
 		Body& bi = *b;
 
 		Vector bic = root->center - bi.position;
 
-		double r = Distance(bi.position, root->center);
+		//double r = DistanceSquared(bi.position, root->center);
 
-		double F = G * (bi.mass * root->mass) / ((r * r) + (epsilon * epsilon));
+		double r = 1 / InverseSquare(bic.x * bic.x + bic.y * bic.y + bic.z * bic.z);
+
+		double F = (G * bi.mass * root->mass) / (r * r * r + epsilon);
 
 		double a = F / bi.mass;
 
-		bi.acceleration = bi.acceleration + Normalize(bic) * a;
+		bi.acceleration = bi.acceleration + bic * a;
 
 		return;
 	}
 
 	for (auto& c : root->child)
 	{
-		calculateForce(c, b);
+		if (c)
+		{
+			calculateForce(c, b);
+		}
 	}
 }
 

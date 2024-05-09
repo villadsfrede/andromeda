@@ -40,7 +40,7 @@ void Universe::generate()
 		double vy = 50e3 * ((double)rand() / (double)RAND_MAX) - 25e3;
 		double vz = 50e3 * ((double)rand() / (double)RAND_MAX) - 25e3;
 
-		std::cout << x << " " << y << " " << z << std::endl;
+		//std::cout << x << " " << y << " " << z << std::endl;
 
 		body.push_back(std::make_shared<Body>(MEARTH, Vector(x, y, z), Vector(vx, vy, vz), Vector(0, 0, 0), true));
 	}

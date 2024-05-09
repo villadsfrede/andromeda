@@ -21,6 +21,11 @@ public:
 
 double Length(const Vector v);
 double Distance(const Vector v, const Vector u);
+double DistanceSquared(const Vector v, const Vector u);
+double ABG(const Vector v);
+double InverseSquare(double n);
+double FastPow(double a, double b);
 Vector Normalize(Vector v);
+
 
 #endif

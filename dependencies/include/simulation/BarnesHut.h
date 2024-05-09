@@ -8,7 +8,7 @@
 class BarnesHut : public Algorithm {
 public:
 	const float epsilon = 0.5f;
-	const float theta = 0.5f;
+	const float theta = 1.5f;
 
 	std::unique_ptr<Octree> octree = nullptr;
 

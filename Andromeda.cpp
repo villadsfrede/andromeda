@@ -19,9 +19,14 @@ int main()
 
 	Universe u = Universe();
 
-	//Vector v = Vector(0, 0, 0);
+	Vector v = Vector(10, 3, 5);
 	//Vector u = Vector(1, 0, 0);
 	//Vector w = v + u;
+
+	std::cout << std::pow(Length(v), 3) << std::endl;
+	std::cout << std::pow(ABG(v), 3) << std::endl;
+
+	std::cout << pow(InverseSquare(v.x * v.x + v.y * v.y + v.z * v.z), -1) << std::endl;
 
 	//std::cout << "(" << w.x << "," << w.y << "," << w.z << ")" << std::endl;
 	//std::cout << (v != u) << std::endl;
