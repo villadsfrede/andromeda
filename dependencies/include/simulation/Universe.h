@@ -6,6 +6,11 @@
 #include <stdlib.h>
 #include <cstdlib>
 
+#include <string>
+#include <fstream>
+#include <iostream>
+#include <sstream>
+
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
@@ -22,6 +27,7 @@ private:
 	double pmax;
 	double vmin;
 	double vmax;
+	int seed;
 
 	GLuint vao, vbo;
 
@@ -32,13 +38,16 @@ public:
 
 	std::vector<float> vertices;
 
-	Universe(int o, double m, double pmin, double pmax, double vmin, double vmax);
+	Universe(int o, double m, double pmin, double pmax, double vmin, double vmax, int s);
 
 	void generate();
 	void update();
 	void buffer();
 	void render();
 	void cleanup();
+
+	void save(char file[]);
+	void load(char file[]);
 };
 
 #endif

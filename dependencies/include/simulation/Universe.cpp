@@ -1,16 +1,16 @@
 #include "Universe.h"
 
-Universe::Universe(int o, double m, double pmin, double pmax, double vmin, double vmax) : objects(o), mass(m), pmin(pmin), pmax(pmax), vmin(vmin), vmax(vmax)
+Universe::Universe(int o, double m, double pmin, double pmax, double vmin, double vmax, int s) : objects(o), mass(m), pmin(pmin), pmax(pmax), vmin(vmin), vmax(vmax), seed(s)
 {
 	algorithm = std::make_unique<BarnesHut>(body);
 
 	body.clear();
 
-	srand(0);
+	srand(seed);
 
 	for (int i = 0; i < objects; i++)
 	{
-		double radial = (MAX - MIN) * ((double)rand() / (double)RAND_MAX) + MIN;
+		double radial = (pmax - pmin) * ((double)rand() / (double)RAND_MAX) + pmin;
 		double polar = 2.0 * PI * ((double)rand() / (double)RAND_MAX);
 		double azimuthal = 2.0 * PI * ((double)rand() / (double)RAND_MAX);
 
@@ -18,9 +18,13 @@ Universe::Universe(int o, double m, double pmin, double pmax, double vmin, doubl
 		double y = radial * std::sin(azimuthal) * std::sin(polar);
 		double z = radial * std::cos(azimuthal);
 
-		double vx = 50e3 * ((double)rand() / (double)RAND_MAX) - 25e3;
-		double vy = 50e3 * ((double)rand() / (double)RAND_MAX) - 25e3;
-		double vz = 50e3 * ((double)rand() / (double)RAND_MAX) - 25e3;
+		radial = (vmax - vmin) * ((double)rand() / (double)RAND_MAX) + vmin;
+		polar = 2.0 * PI * ((double)rand() / (double)RAND_MAX);
+		azimuthal = 2.0 * PI * ((double)rand() / (double)RAND_MAX);
+
+		double vx = radial * std::sin(azimuthal) * std::cos(polar);
+		double vy = radial * std::sin(azimuthal) * std::sin(polar);
+		double vz = radial * std::cos(azimuthal);
 
 		body.push_back(std::make_shared<Body>(MEARTH, Vector(x, y, z), Vector(vx, vy, vz), Vector(0, 0, 0), true));
 	}
@@ -54,23 +58,6 @@ void Universe::buffer()
 	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float) * objects * 3, &vertices[0]);
 }
 
-/*
-void Universe::generate()
-{
-	body.pop_back();
-	body.push_back(std::make_shared<Body>(1.989e30, Vector(0, 0, 0), Vector(0, 0, 0), Vector(0, 0, 0), false));
-	
-	//body.push_back(std::make_shared<Body>(0.33011e24, Vector(57.909e9, 0, 0), Vector(0, 47.36e3, 0), Vector(0, 0, 0), true));
-	//body.push_back(std::make_shared<Body>(4.8675e24, Vector(108.209e9, 0, 0), Vector(0, 35.02e3, 0), Vector(0, 0, 0), true));
-	//body.push_back(std::make_shared<Body>(5.9724e24, Vector(149.596e9, 0, 0), Vector(0, 29.78e3, 0), Vector(0, 0, 0), true));
-	//body.push_back(std::make_shared<Body>(0.64171e24, Vector(227.923e9, 0, 0), Vector(0, 24.07e3, 0), Vector(0, 0, 0), true));
-	//body.push_back(std::make_shared<Body>(1898.19e24, Vector(778.570e9, 0, 0), Vector(0, 13e3, 0), Vector(0, 0, 0), true));
-	//body.push_back(std::make_shared<Body>(568.34e24, Vector(1433.529e9, 0, 0), Vector(0, 13e3, 0), Vector(0, 0, 0), true));
-	//body.push_back(std::make_shared<Body>(86.813e24, Vector(2872.463e9, 0, 0), Vector(0, 6.80e3, 0), Vector(0, 0, 0), true));
-	//body.push_back(std::make_shared<Body>(102.413e24, Vector(4495.060e9, 0, 0), Vector(0, 5.43e3, 0), Vector(0, 0, 0), true));
-}
-*/
-
 void Universe::update()
 {
 	algorithm->update();
@@ -89,4 +76,72 @@ void Universe::cleanup()
 	glDisableVertexAttribArray(0);
 	glDeleteBuffers(1, &vbo);
 	glDeleteVertexArrays(1, &vao);
+}
+
+void Universe::save(char file[])
+{
+	std::ofstream output(file, std::ios::binary);
+
+	if (output.is_open())
+	{
+		output << "ANDROMEDA" << std::endl;
+		output << objects << std::endl;
+
+		for (auto& b : body)
+		{
+			output << b->mass << " " << b->position.x << " " << b->position.y << " " << b->position.z << " " << b->velocity.x << " " << b->velocity.y << " " << b->velocity.z << " " << b->dynamic << std::endl;
+		}
+
+		output.close();
+	}
+}
+
+void Universe::load(char file[])
+{
+	body.clear();
+	vertices.clear();
+
+	std::string line;
+	
+	std::string byte;
+
+	std::ifstream input(file, std::ios::binary);
+
+	if (input.is_open())
+	{
+		std::getline(input, line);
+
+		if (line == "ANDROMEDA")
+		{
+			getline(input, line);
+
+			objects = std::stoi(line);
+
+			while (std::getline(input, line))
+			{
+				std::stringstream s(line);
+
+				std::vector<double> a;
+
+				while (std::getline(s, byte, ' '))
+				{
+					a.push_back(std::stod(byte));
+				}
+
+				body.push_back(std::make_shared<Body>(
+					a[0],
+					Vector(a[1], a[2], a[3]),
+					Vector(a[4], a[5], a[6]),
+					Vector(0, 0, 0),
+					a[7]));
+			}
+		}
+
+		input.close();
+
+		glBindBuffer(GL_ARRAY_BUFFER, vbo);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * objects * 3, nullptr, GL_DYNAMIC_DRAW);
+
+		buffer();
+	}
 }

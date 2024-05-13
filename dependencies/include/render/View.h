@@ -25,6 +25,9 @@ private:
 	float pmax;
 	float vmin;
 	float vmax;
+	int seed;
+
+	char file[64] = "universe.txt";
 
 public:
 	GLFWwindow* window;

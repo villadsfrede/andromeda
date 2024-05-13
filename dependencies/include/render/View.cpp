@@ -65,10 +65,23 @@ void View::renderUI()
 	ImGui::SliderFloat("Position maximum", &pmax, 1000e9, 10000e9, "%.0f");
 	ImGui::SliderFloat("Velocity minimum", &vmin, 1e3, 50e3, "%.0f");
 	ImGui::SliderFloat("Velocity maximum", &vmax, 50e3, 100e3, "%.0f");
+	ImGui::SliderInt("Seed", &seed, 1, 100000);
 
 	if (ImGui::Button("Generate"))
 	{
-		universe = std::make_unique<Universe>(objects, mass, pmin, pmax, vmin, vmax);
+		universe = std::make_unique<Universe>(objects, mass, pmin, pmax, vmin, vmax, seed);
+	}
+
+	ImGui::InputText("File", file, 64);
+
+	if (ImGui::Button("Save"))
+	{
+		universe->save(file);
+	}
+
+	if (ImGui::Button("Load"))
+	{
+		universe->load(file);
 	}
 
 	ImGui::End();
