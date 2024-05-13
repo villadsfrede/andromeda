@@ -15,5 +15,6 @@
 //SIMULATION
 #include "simulation/Universe.h"
 #include "simulation/BarnesHut.h"
+#include "simulation/Rocket.h"
 
 #endif

@@ -48,6 +48,9 @@
     <ClCompile Include="dependencies\include\simulation\Body.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="dependencies\include\simulation\Rocket.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dependencies\include\glad\glad.h">
@@ -935,6 +938,9 @@
     <ClInclude Include="dependencies\include\simulation\Body.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="dependencies\include\simulation\Rocket.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="dependencies\include\resources\default.vert" />
@@ -1347,5 +1353,7 @@
     <None Include="dependencies\include\glm\gtx\wrap.inl">
       <Filter>Header Files</Filter>
     </None>
+    <None Include="dependencies\include\resources\Rocket.frag" />
+    <None Include="dependencies\include\resources\Rocket.vert" />
   </ItemGroup>
 </Project>

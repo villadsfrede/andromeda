@@ -13,7 +13,7 @@
 
 class Camera {
 public:
-	glm::vec3 position = glm::vec3(0, 0, 500);
+	glm::vec3 position = glm::vec3(0, 0, 0);
 	glm::vec3 orientation = glm::vec3(0, 0, -1);
 	glm::vec3 up = glm::vec3(0, 1, 0);
 
@@ -22,8 +22,8 @@ public:
 	float near;
 	float far;
 
-	float speed = 1;
-	float sensitivity = 100;
+	float speed = 0.01;
+	float sensitivity = 50;
 
 	void operator () (Shader& shader);
 

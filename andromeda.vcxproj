@@ -139,6 +139,7 @@
     <ClCompile Include="dependencies\include\simulation\BarnesHut.cpp" />
     <ClCompile Include="dependencies\include\simulation\Body.cpp" />
     <ClCompile Include="dependencies\include\simulation\Octree.cpp" />
+    <ClCompile Include="dependencies\include\simulation\Rocket.cpp" />
     <ClCompile Include="dependencies\include\simulation\Universe.cpp" />
     <ClCompile Include="glad.c" />
   </ItemGroup>
@@ -437,6 +438,7 @@
     <ClInclude Include="dependencies\include\simulation\BarnesHut.h" />
     <ClInclude Include="dependencies\include\simulation\Body.h" />
     <ClInclude Include="dependencies\include\simulation\Octree.h" />
+    <ClInclude Include="dependencies\include\simulation\Rocket.h" />
     <ClInclude Include="dependencies\include\simulation\Universe.h" />
   </ItemGroup>
   <ItemGroup>
@@ -578,6 +580,8 @@
     <None Include="dependencies\include\glm\gtx\wrap.inl" />
     <None Include="dependencies\include\resources\default.frag" />
     <None Include="dependencies\include\resources\default.vert" />
+    <None Include="dependencies\include\resources\Rocket.frag" />
+    <None Include="dependencies\include\resources\Rocket.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
