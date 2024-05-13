@@ -1,32 +1,14 @@
-#include <stdlib.h>
-#include <cstdlib>
-#include <iostream>
-#include <glm/glm.hpp>
 #include "Universe.h"
 
 Universe::Universe()
 {
 	algorithm = std::make_unique<BarnesHut>(body);
 
-	glGenVertexArrays(1, &vao);
-	glGenBuffers(1, &vbo);
-
-	glBindVertexArray(vao);
-
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), nullptr, GL_DYNAMIC_DRAW);
-
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
-	glEnableVertexAttribArray(0);
-}
-
-void Universe::generate()
-{
 	body.clear();
 
 	srand(0);
 
-	for (unsigned int i = 0; i < OBJECTS; i++)
+	for (int i = 0; i < 1000; i++)
 	{
 		double radial = (MAX - MIN) * ((double)rand() / (double)RAND_MAX) + MIN;
 		double polar = 2.0 * PI * ((double)rand() / (double)RAND_MAX);
@@ -40,11 +22,41 @@ void Universe::generate()
 		double vy = 50e3 * ((double)rand() / (double)RAND_MAX) - 25e3;
 		double vz = 50e3 * ((double)rand() / (double)RAND_MAX) - 25e3;
 
-		//std::cout << x << " " << y << " " << z << std::endl;
-
 		body.push_back(std::make_shared<Body>(MEARTH, Vector(x, y, z), Vector(vx, vy, vz), Vector(0, 0, 0), true));
 	}
 
+	glGenVertexArrays(1, &vao);
+	glGenBuffers(1, &vbo);
+
+	glBindVertexArray(vao);
+
+	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 1000, nullptr, GL_DYNAMIC_DRAW);
+
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+	glEnableVertexAttribArray(0);
+
+	buffer();
+}
+
+void Universe::buffer()
+{
+	vertices.clear();
+
+	for (auto& b : body)
+	{
+		vertices.push_back((float)b->position.x * (float)5000 / 1e13);
+		vertices.push_back((float)b->position.y * (float)5000 / 1e13);
+		vertices.push_back((float)b->position.z * (float)5000 / 1e13);
+	}
+
+	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float) * 1000, &vertices[0]);
+}
+
+/*
+void Universe::generate()
+{
 	body.pop_back();
 	body.push_back(std::make_shared<Body>(1.989e30, Vector(0, 0, 0), Vector(0, 0, 0), Vector(0, 0, 0), false));
 	
@@ -57,34 +69,19 @@ void Universe::generate()
 	//body.push_back(std::make_shared<Body>(86.813e24, Vector(2872.463e9, 0, 0), Vector(0, 6.80e3, 0), Vector(0, 0, 0), true));
 	//body.push_back(std::make_shared<Body>(102.413e24, Vector(4495.060e9, 0, 0), Vector(0, 5.43e3, 0), Vector(0, 0, 0), true));
 }
+*/
 
 void Universe::update()
 {
 	algorithm->update();
 
-	unsigned int i = 0;
-
-	double scale = 5000 / 1e13;
-
-	for (auto& b : body)
-	{
-		vertices[(i * 3) + 0] = b->position.x * scale;
-		vertices[(i * 3) + 1] = b->position.y * scale;
-		vertices[(i * 3) + 2] = b->position.z * scale;;
-
-		//std::cout << vertices[i * 3 + 0] << " " << vertices[i * 3 + 1] << " " << vertices[i * 3 + 2] << std::endl;
-
-		i++;
-	}
-
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
+	buffer();
 }
 
 void Universe::render()
 {
 	glBindVertexArray(vao);
-	glDrawArrays(GL_POINTS, 0, OBJECTS);
+	glDrawArrays(GL_POINTS, 0, 1000);
 }
 
 void Universe::cleanup()

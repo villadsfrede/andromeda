@@ -10,16 +10,30 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-#include "simulation/Config.h"
 #include "Camera.h"
+#include "simulation/Config.h"
+#include "simulation/Universe.h"
 
 class View {
+private:
+	static const unsigned short int WWIDTH = 1000;
+	static const unsigned short int WHEIGHT = 1000;
+
+	int objects;
+	float mass;
+	float pmin;
+	float pmax;
+	float vmin;
+	float vmax;
+
 public:
 	GLFWwindow* window;
 
 	float bg[4] = {0.0f, 0.0f, 0.0f, 1.0f};
 
 	std::unique_ptr<Camera> camera;
+
+	std::unique_ptr<Universe> universe;
 
 	bool init();
 	void renderUI();

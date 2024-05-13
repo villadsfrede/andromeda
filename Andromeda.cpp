@@ -1,11 +1,7 @@
 #include "Andromeda.h"
 
-#include "simulation/Octree.h"
-
 int main()
 {
-	// DONT TOUCH THIS //
-	
 	View view;
 
 	if (!view.init())
@@ -17,9 +13,7 @@ int main()
 
 	view.camera = std::make_unique<Camera>(0.75f, 16 / 9, 0.1f, 10e5f);
 
-	Universe u = Universe();
-
-	u.generate();
+	view.universe = std::make_unique<Universe>();
 
 	while (!glfwWindowShouldClose(view.window))
 	{
@@ -35,10 +29,10 @@ int main()
 
 		if (glfwGetKey(view.window, GLFW_KEY_SPACE) == GLFW_PRESS)
 		{
-			u.update();
+			view.universe->update();
 		}
 
-		u.render();
+		view.universe->render();
 
 		view.renderUI();
 

@@ -59,6 +59,14 @@ void View::renderUI()
 	ImGui::SliderFloat("Sensitivity", &camera->sensitivity, 1.0f, 100.0f);
 	ImGui::End();
 
+	ImGui::Begin("Universe");
+	ImGui::SliderInt("Objects", &objects, 1, 10000);
+	ImGui::SliderFloat("Position minimum", &pmin, 10e9, 1000e9, "%.0f");
+	ImGui::SliderFloat("Position maximum", &pmax, 1000e9, 10000e9, "%.0f");
+	ImGui::SliderFloat("Velocity minimum", &vmin, 1e3, 50e3, "%.0f");
+	ImGui::SliderFloat("Velocity maximum", &vmax, 50e3, 100e3, "%.0f");
+	ImGui::End();
+
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }

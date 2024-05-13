@@ -72,13 +72,6 @@ unsigned short int Octree::octant(Vector p)
 
 void Octree::insert(std::shared_ptr<Body> b)
 {
-	//std::cout << std::endl;
-	//std::cout << "inserting: " << b->position.x << " " << b->position.y << " " << b->position.z << std::endl;
-	//std::cout << "TOP: " << top.x << " " << top.y << " " << top.z << std::endl;
-	//std::cout << "BOT: " << bot.x << " " << bot.y << " " << bot.z << std::endl;
-	//std::cout << "OCTANT: " << octant(b->position) << std::endl;
-	//std::cout << std::endl;
-
 	if (b == nullptr)
 	{
 		return;
@@ -214,9 +207,6 @@ void traverse(std::unique_ptr<Octree>& root)
 	{
 		return;
 	}
-
-	//std::cout << "MASS: " << root->mass << std::endl;
-	//std::cout << "CENTER: " << root->center.x << " " << root->center.y << " " << root->center.y << std::endl;
 
 	for (auto& c : root->child)
 	{

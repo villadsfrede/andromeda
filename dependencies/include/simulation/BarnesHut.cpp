@@ -1,4 +1,3 @@
-#include <iostream>
 #include "BarnesHut.h"
 
 BarnesHut::BarnesHut(std::vector<std::shared_ptr<Body>>& b) : Algorithm(b)
@@ -21,11 +20,6 @@ void BarnesHut::create()
 		bot.y = std::min(bot.y, b->position.y);
 		bot.z = std::min(bot.z, b->position.z);
 	}
-
-	//std::cout << "__________" << std::endl;
-	//std::cout << top.x << " " << top.y << " " << top.z << std::endl;
-	//std::cout << bot.x << " " << bot.y << " " << bot.z << std::endl;
-	//std::cout << "__________" << std::endl;
 
 	octree = std::make_unique<Octree>(top, bot);
 }
@@ -57,8 +51,6 @@ void BarnesHut::calculateForce(std::unique_ptr<Octree>& root, std::shared_ptr<Bo
 
 		Vector bibj = bj.position - bi.position;
 
-		//double r = DistanceSquared(bi.position, bj.position);
-
 		double r = 1 / InverseSquare(bibj.x * bibj.x + bibj.y * bibj.y + bibj.z * bibj.z);
 
 		double F = (G * bi.mass * bj.mass) / (r * r * r + epsilon);
@@ -70,8 +62,6 @@ void BarnesHut::calculateForce(std::unique_ptr<Octree>& root, std::shared_ptr<Bo
 		return;
 	}
 
-	//float width = DistanceSquared(root->top, root->bot);
-	//float width = (root->bot.x - root->top.x) * (root->bot.x - root->top.x);
 	float width = (root->top.x - root->bot.x) * (root->top.x - root->bot.x);
 	float distance = DistanceSquared(b->position, root->center);
 
@@ -80,8 +70,6 @@ void BarnesHut::calculateForce(std::unique_ptr<Octree>& root, std::shared_ptr<Bo
 		Body& bi = *b;
 
 		Vector bic = root->center - bi.position;
-
-		//double r = DistanceSquared(bi.position, root->center);
 
 		double r = 1 / InverseSquare(bic.x * bic.x + bic.y * bic.y + bic.z * bic.z);
 
@@ -112,8 +100,6 @@ void BarnesHut::updateAcceleration()
 			b->acceleration = Vector(0,0,0);
 
 			calculateForce(octree, b);
-			
-			//std::cout << b->acceleration.x << " " << b->acceleration.y << " " << b->acceleration.z << std::endl;
 		}
 	}
 }
@@ -123,8 +109,6 @@ void BarnesHut::updateVelocity()
 	for (auto& b : body)
 	{
 		b->velocity = b->velocity + b->acceleration * (float)DT;
-
-		//std::cout << b->velocity.x << " " << b->velocity.y << " " << b->velocity.z << std::endl;
 	}
 }
 
@@ -133,8 +117,6 @@ void BarnesHut::updatePosition()
 	for (auto& b : body)
 	{
 		b->position = b->position + b->velocity * (float)DT;
-
-		//std::cout << b->position.x << " " << b->position.y << " " << b->position.z << std::endl;
 	}
 }
 
@@ -145,8 +127,6 @@ void BarnesHut::update()
 	build();
 
 	calculate(octree);
-
-	//std::cout << octree->center.x << " " << octree->center.y << " " << octree->center.z << std::endl;
 
 	updateAcceleration();
 	updateVelocity();

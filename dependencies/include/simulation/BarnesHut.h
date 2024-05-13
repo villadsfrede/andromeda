@@ -1,9 +1,9 @@
 #ifndef ANDROMEDA_BARNESHUT_H
 #define ANDROMEDA_BARNESHUT_H
 
-#include "Config.h"
 #include "Algorithm.h"
 #include "Octree.h"
+#include "Config.h"
 
 class BarnesHut : public Algorithm {
 public:

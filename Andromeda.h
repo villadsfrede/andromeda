@@ -17,6 +17,4 @@
 #include "simulation/Universe.h"
 #include "simulation/BarnesHut.h"
 
-#include "simulation/Vector.h"
-
 #endif
