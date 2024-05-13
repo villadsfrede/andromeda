@@ -33,7 +33,7 @@ public:
 
 	std::unique_ptr<Camera> camera;
 
-	std::unique_ptr<Universe> universe;
+	std::unique_ptr<Universe> universe = nullptr;
 
 	bool init();
 	void renderUI();

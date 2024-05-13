@@ -1,6 +1,6 @@
 #include "Universe.h"
 
-Universe::Universe()
+Universe::Universe(int o, double m, double pmin, double pmax, double vmin, double vmax) : objects(o), mass(m), pmin(pmin), pmax(pmax), vmin(vmin), vmax(vmax)
 {
 	algorithm = std::make_unique<BarnesHut>(body);
 
@@ -8,7 +8,7 @@ Universe::Universe()
 
 	srand(0);
 
-	for (int i = 0; i < 1000; i++)
+	for (int i = 0; i < objects; i++)
 	{
 		double radial = (MAX - MIN) * ((double)rand() / (double)RAND_MAX) + MIN;
 		double polar = 2.0 * PI * ((double)rand() / (double)RAND_MAX);
@@ -31,7 +31,7 @@ Universe::Universe()
 	glBindVertexArray(vao);
 
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 1000, nullptr, GL_DYNAMIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * objects * 3, nullptr, GL_DYNAMIC_DRAW);
 
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
 	glEnableVertexAttribArray(0);
@@ -51,7 +51,7 @@ void Universe::buffer()
 	}
 
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float) * 1000, &vertices[0]);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float) * objects * 3, &vertices[0]);
 }
 
 /*
@@ -81,7 +81,7 @@ void Universe::update()
 void Universe::render()
 {
 	glBindVertexArray(vao);
-	glDrawArrays(GL_POINTS, 0, 1000);
+	glDrawArrays(GL_POINTS, 0, objects);
 }
 
 void Universe::cleanup()

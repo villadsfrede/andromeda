@@ -13,8 +13,6 @@ int main()
 
 	view.camera = std::make_unique<Camera>(0.75f, 16 / 9, 0.1f, 10e5f);
 
-	view.universe = std::make_unique<Universe>();
-
 	while (!glfwWindowShouldClose(view.window))
 	{
 		glClearColor(view.bg[0], view.bg[1], view.bg[2], view.bg[3]);
@@ -29,11 +27,17 @@ int main()
 
 		if (glfwGetKey(view.window, GLFW_KEY_SPACE) == GLFW_PRESS)
 		{
-			view.universe->update();
+			if (view.universe)
+			{
+				view.universe->update();
+			}
 		}
 
-		view.universe->render();
-
+		if (view.universe)
+		{
+			view.universe->render();
+		}
+		
 		view.renderUI();
 
 		glfwSwapBuffers(view.window);

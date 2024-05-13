@@ -65,6 +65,12 @@ void View::renderUI()
 	ImGui::SliderFloat("Position maximum", &pmax, 1000e9, 10000e9, "%.0f");
 	ImGui::SliderFloat("Velocity minimum", &vmin, 1e3, 50e3, "%.0f");
 	ImGui::SliderFloat("Velocity maximum", &vmax, 50e3, 100e3, "%.0f");
+
+	if (ImGui::Button("Generate"))
+	{
+		universe = std::make_unique<Universe>(objects, mass, pmin, pmax, vmin, vmax);
+	}
+
 	ImGui::End();
 
 	ImGui::Render();

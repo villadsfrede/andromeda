@@ -32,7 +32,7 @@ public:
 
 	std::vector<float> vertices;
 
-	Universe();
+	Universe(int o, double m, double pmin, double pmax, double vmin, double vmax);
 
 	void generate();
 	void update();
