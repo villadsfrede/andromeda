@@ -147,6 +147,7 @@
     <ClCompile Include="dependencies\include\simulation\Algorithm.cpp" />
     <ClCompile Include="dependencies\include\simulation\BarnesHut.cpp" />
     <ClCompile Include="dependencies\include\simulation\Body.cpp" />
+    <ClCompile Include="dependencies\include\simulation\DirectSum.cpp" />
     <ClCompile Include="dependencies\include\simulation\Octree.cpp" />
     <ClCompile Include="dependencies\include\simulation\Universe.cpp" />
     <ClCompile Include="dependencies\include\simulation\Vector.cpp" />
@@ -456,6 +457,7 @@
     <ClInclude Include="dependencies\include\simulation\BarnesHut.h" />
     <ClInclude Include="dependencies\include\simulation\Body.h" />
     <ClInclude Include="dependencies\include\simulation\Config.h" />
+    <ClInclude Include="dependencies\include\simulation\DirectSum.h" />
     <ClInclude Include="dependencies\include\simulation\Octree.h" />
     <ClInclude Include="dependencies\include\simulation\Universe.h" />
     <ClInclude Include="dependencies\include\simulation\Vector.h" />

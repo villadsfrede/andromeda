@@ -26,6 +26,7 @@ private:
 	float vmin;
 	float vmax;
 	int seed;
+	bool barneshut;
 
 	char file[64] = "universe.txt";
 

@@ -49,6 +49,23 @@ void View::renderUI()
 	ImGui::Begin("View");
 	ImGui::Text("FPS = %f", ImGui::GetIO().Framerate);
 	ImGui::ColorEdit4("Background color", bg);
+	
+	if (ImGui::Button("Direct-Sum"))
+	{
+		if (universe)
+		{
+			universe->algorithm = std::make_unique<DirectSum>(universe->body);
+		}
+	}
+
+	if (ImGui::Button("Barnes-Hut"))
+	{
+		if (universe)
+		{
+			universe->algorithm = std::make_unique<BarnesHut>(universe->body);
+		}
+	}
+
 	ImGui::End();
 
 	ImGui::Begin("Camera");

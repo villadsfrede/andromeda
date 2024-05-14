@@ -17,6 +17,7 @@
 #include "Config.h"
 #include "Body.h"
 #include "Algorithm.h"
+#include "DirectSum.h"
 #include "BarnesHut.h"
 
 class Universe {
@@ -31,16 +32,16 @@ private:
 
 	GLuint vao, vbo;
 
+public:
 	std::unique_ptr<Algorithm> algorithm;
 
-public:
 	std::vector<std::shared_ptr<Body>> body;
 
 	std::vector<float> vertices;
 
 	Universe(int o, double m, double pmin, double pmax, double vmin, double vmax, int s);
 
-	void generate();
+	//void generate();
 	void update();
 	void buffer();
 	void render();
