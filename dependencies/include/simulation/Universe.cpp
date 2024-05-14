@@ -113,7 +113,7 @@ void Universe::load(char file[])
 
 		if (line == "ANDROMEDA")
 		{
-			getline(input, line);
+			std::getline(input, line);
 
 			objects = std::stoi(line);
 
