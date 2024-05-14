@@ -456,7 +456,7 @@
     <ClInclude Include="dependencies\include\simulation\Algorithm.h" />
     <ClInclude Include="dependencies\include\simulation\BarnesHut.h" />
     <ClInclude Include="dependencies\include\simulation\Body.h" />
-    <ClInclude Include="dependencies\include\simulation\Config.h" />
+    <ClInclude Include="dependencies\include\simulation\Constants.h" />
     <ClInclude Include="dependencies\include\simulation\DirectSum.h" />
     <ClInclude Include="dependencies\include\simulation\Octree.h" />
     <ClInclude Include="dependencies\include\simulation\Universe.h" />

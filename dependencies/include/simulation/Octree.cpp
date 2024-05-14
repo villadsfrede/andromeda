@@ -1,5 +1,6 @@
 #include "Octree.h"
 
+// Constructor
 Octree::Octree(Vector t, Vector b)
 {
 	top = t;
@@ -8,11 +9,6 @@ Octree::Octree(Vector t, Vector b)
 	mass = 0;
 	leaf = true;
 	body = nullptr;
-}
-
-Octree::~Octree()
-{
-
 }
 
 unsigned short int Octree::octant(Vector p)
@@ -67,6 +63,8 @@ unsigned short int Octree::octant(Vector p)
 			}
 		}
 	}
+
+	// Position is not in bounds
 	std::cout << "OUT OF BOUNDS" << std::endl;
 }
 
@@ -77,12 +75,14 @@ void Octree::insert(std::shared_ptr<Body> b)
 		return;
 	}
 
+	// insert body
 	if (body == nullptr && leaf)
 	{
 		body = b;
 		return;
 	}
 
+	// remove body and insert it again
 	if (body != nullptr)
 	{
 		if (body == b)
@@ -99,6 +99,7 @@ void Octree::insert(std::shared_ptr<Body> b)
 
 	int oct = octant(b->position);
 
+	// Create new child in given octant
 	if (oct == 0)
 	{
 		if (child[0] == nullptr)
@@ -173,13 +174,16 @@ void calculate(std::unique_ptr<Octree>& root)
 		return;
 	}
 
+	// root contains body
 	if (root->body)
 	{
+		// Set root mass and center to body mass and position
 		root->mass = root->body->mass;
 		root->center = root->body->position;
 		return;
 	}
 
+	// Calculate each child
 	for (auto& c : root->child)
 	{
 		calculate(c);
@@ -188,6 +192,7 @@ void calculate(std::unique_ptr<Octree>& root)
 	double mass = 0;
 	Vector center = Vector(0, 0, 0);
 
+	// Add mass and center of mass from children
 	for (auto& c : root->child)
 	{
 		if (c)
@@ -201,18 +206,3 @@ void calculate(std::unique_ptr<Octree>& root)
 	root->center = center / mass;
 }
 
-void traverse(std::unique_ptr<Octree>& root)
-{
-	if (!root)
-	{
-		return;
-	}
-
-	for (auto& c : root->child)
-	{
-		if (c)
-		{
-			traverse(c);
-		}
-	}
-}

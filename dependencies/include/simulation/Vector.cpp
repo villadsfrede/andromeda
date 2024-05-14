@@ -1,10 +1,12 @@
 #include "Vector.h"
 
+// Empty vector
 Vector::Vector() : x(0), y(0), z(0)
 {
 
 }
 
+// Vector with parameters
 Vector::Vector(double x, double y, double z) : x(x), y(y), z(z)
 {
 
@@ -42,31 +44,27 @@ bool Vector::operator!=(const Vector v)
 
 double Length(const Vector v)
 {
-	return sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
+	// Return length of vector
+	return std::sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
 }
 
 double Distance(const Vector v, const Vector u)
 {
-	return sqrt((v.x - u.x) * (v.x - u.x) + (v.y - u.y) * (v.y - u.y) + (v.z - u.z) * (v.z - u.z));
+	// Return distance between positions
+	return std::sqrt((v.x - u.x) * (v.x - u.x) + (v.y - u.y) * (v.y - u.y) + (v.z - u.z) * (v.z - u.z));
 }
 
 double DistanceSquared(const Vector v, const Vector u)
 {
+	// Return distance squared between positions
 	return (v.x - u.x) * (v.x - u.x) + (v.y - u.y) * (v.y - u.y) + (v.z - u.z) * (v.z - u.z);
 }
 
-double ABG(const Vector v)
-{
-	// alpha max plus beta min plus gamma med
-	double max = std::max(v.x, std::max(v.y, v.z));
-	double min = std::min(v.x, std::min(v.y, v.z));
-	double med = std::min(v.x, std::max(v.y, v.z));
-	return max * 0.93980863517232523127 + min * 0.29870618761437979596 + med * 0.38928148272372526647;
-}
 
 double InverseSquare(double n)
 {
 	// QUAKE III FAST INVERSE SQUARE
+	// https://en.wikipedia.org/wiki/Fast_inverse_square_root
 
 	const float threehalfs = 1.5f;
 
@@ -85,5 +83,6 @@ double InverseSquare(double n)
 
 Vector Normalize(Vector v)
 {
+	// Return normalized vector
 	return v * InverseSquare(v.x * v.x + v.y  * v.y + v.z * v.z);
 }

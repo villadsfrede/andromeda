@@ -11,8 +11,10 @@ public:
 	Vector velocity;
 	Vector acceleration;
 
+	// if simulated
 	bool dynamic;
 
+	// Constructor
 	Body(double m, Vector p, Vector v, Vector a, bool d);
 };
 

@@ -13,10 +13,12 @@
 
 class Camera {
 public:
+	// Current position, orientation and up
 	glm::vec3 position = glm::vec3(0, 0, 500);
 	glm::vec3 orientation = glm::vec3(0, 0, -1);
 	glm::vec3 up = glm::vec3(0, 1, 0);
 
+	// FOV, aspect ratio, near plane and far plane
 	float angle;
 	float aspect;
 	float near;
@@ -25,10 +27,13 @@ public:
 	float speed = 1;
 	float sensitivity = 100;
 
+	// Transfer uniforms to shader
 	void uniform(Shader& shader);
 
+	// Handle input
 	void input(GLFWwindow* window);
 
+	// Constructor
 	Camera(float angle, float aspect, float near, float far);
 };
 

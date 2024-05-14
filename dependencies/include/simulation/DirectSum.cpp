@@ -1,5 +1,6 @@
 #include "DirectSum.h"
 
+// Constructor
 DirectSum::DirectSum(std::vector<std::shared_ptr<Body>>& b) : Algorithm(b)
 {
 
@@ -12,15 +13,20 @@ void DirectSum::calculateAcceleration(std::shared_ptr<Body> m, std::shared_ptr<B
 		return;
 	}
 
+	// Get reference
 	Body& bm = *m;
 	Body& bn = *n;
 
+	// Direction
 	Vector direction = bn.position - bm.position;
 
+	// Distance
 	double r = 1 / InverseSquare(direction.x * direction.x + direction.y * direction.y + direction.z * direction.z);
 
+	// Force
 	double F = (G * bm.mass * bn.mass) / (r * r * r + epsilon);
 
+	// Acceleration
 	double a = F / bm.mass;
 
 	bm.acceleration = bm.acceleration + direction * a;

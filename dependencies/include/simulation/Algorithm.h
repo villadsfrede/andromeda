@@ -8,8 +8,10 @@
 
 class Algorithm {
 public:
+	// Vector of pointers to bodies
 	std::vector<std::shared_ptr<Body>>& body;
 
+	// Constructor
 	Algorithm(std::vector<std::shared_ptr<Body>>& b);
 
 	virtual void update() = 0;

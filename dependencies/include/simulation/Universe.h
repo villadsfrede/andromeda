@@ -14,7 +14,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-#include "Config.h"
+#include "Constants.h"
 #include "Body.h"
 #include "Algorithm.h"
 #include "DirectSum.h"
@@ -22,6 +22,7 @@
 
 class Universe {
 private:
+	// Generation parameteres
 	int objects;
 	double mass;
 	double pmin;
@@ -30,21 +31,29 @@ private:
 	double vmax;
 	int seed;
 
+	// Buffer IDs
 	GLuint vao, vbo;
 
 public:
+	// Current algorithm
 	std::unique_ptr<Algorithm> algorithm;
 
+	// Bodies in universe
 	std::vector<std::shared_ptr<Body>> body;
 
+	// Vector of vertices to be drawn (scaled)
 	std::vector<float> vertices;
 
+	// Constructor
 	Universe(int o, double m, double pmin, double pmax, double vmin, double vmax, int s);
 
-	//void generate();
+	// Update positions of bodies
 	void update();
+	// Load vertices into buffer
 	void buffer();
+	// Render bodies
 	void render();
+	// Free memory
 	void cleanup();
 
 	void save(char file[]);

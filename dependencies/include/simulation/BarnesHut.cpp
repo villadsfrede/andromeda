@@ -1,5 +1,6 @@
 #include "BarnesHut.h"
 
+// Constructor
 BarnesHut::BarnesHut(std::vector<std::shared_ptr<Body>>& b) : Algorithm(b)
 {
 
@@ -7,32 +8,37 @@ BarnesHut::BarnesHut(std::vector<std::shared_ptr<Body>>& b) : Algorithm(b)
 
 void BarnesHut::create()
 {
+	// Initialize top and bottom bounds
 	Vector top = Vector(-INFINITY, -INFINITY, -INFINITY);
 	Vector bot = Vector(INFINITY, INFINITY, INFINITY);
 
 	for (auto& b : body)
 	{
+		// Maximize top bound
 		top.x = std::max(top.x, b->position.x);
 		top.y = std::max(top.y, b->position.y);
 		top.z = std::max(top.z, b->position.z);
 
+		// Minimize lower bound
 		bot.x = std::min(bot.x, b->position.x);
 		bot.y = std::min(bot.y, b->position.y);
 		bot.z = std::min(bot.z, b->position.z);
 	}
 
+	// Create new octree
 	octree = std::make_unique<Octree>(top, bot);
 }
 
 void BarnesHut::build()
 {
+	// Insert each body into octree
 	for (auto& b : body)
 	{
 		octree->insert(b);
 	}
 }
 
-void BarnesHut::calculateForce(std::unique_ptr<Octree>& root, std::shared_ptr<Body> b)
+void BarnesHut::calculateAcceleration(std::unique_ptr<Octree>& root, std::shared_ptr<Body> b)
 {
 	if (!root)
 	{
@@ -46,15 +52,20 @@ void BarnesHut::calculateForce(std::unique_ptr<Octree>& root, std::shared_ptr<Bo
 			return;
 		}
 
+		// Get reference to bodies
 		Body& bi = *b;
 		Body& bj = *root->body;
 
+		// Direction vector
 		Vector bibj = bj.position - bi.position;
 
+		// Distance
 		double r = 1 / InverseSquare(bibj.x * bibj.x + bibj.y * bibj.y + bibj.z * bibj.z);
 
+		// Force
 		double F = (G * bi.mass * bj.mass) / (r * r * r + epsilon);
 
+		// Acceleration
 		double a = F / bi.mass;
 
 		bi.acceleration = bi.acceleration + bibj * a;
@@ -62,31 +73,39 @@ void BarnesHut::calculateForce(std::unique_ptr<Octree>& root, std::shared_ptr<Bo
 		return;
 	}
 
+	// Width of octant
 	float width = (root->top.x - root->bot.x) * (root->top.x - root->bot.x);
+	// Distance between body and masscenter
 	float distance = DistanceSquared(b->position, root->center);
 
 	if (width / distance < (theta * theta))
 	{
+		// Get reference
 		Body& bi = *b;
 
+		// Direction vector
 		Vector bic = root->center - bi.position;
 
+		// Distance
 		double r = 1 / InverseSquare(bic.x * bic.x + bic.y * bic.y + bic.z * bic.z);
 
+		// Force
 		double F = (G * bi.mass * root->mass) / (r * r * r + epsilon);
 
+		// Acceleration
 		double a = F / bi.mass;
 
 		bi.acceleration = bi.acceleration + bic * a;
 
 		return;
 	}
-
+	
+	// Calculate acceleration for all children
 	for (auto& c : root->child)
 	{
 		if (c)
 		{
-			calculateForce(c, b);
+			calculateAcceleration(c, b);
 		}
 	}
 }
@@ -97,9 +116,10 @@ void BarnesHut::updateAcceleration()
 	{
 		if (b->dynamic)
 		{
+			// Reset acceleration
 			b->acceleration = Vector(0,0,0);
 
-			calculateForce(octree, b);
+			calculateAcceleration(octree, b);
 		}
 	}
 }
@@ -123,14 +143,9 @@ void BarnesHut::updatePosition()
 void BarnesHut::update()
 {
 	create();
-
 	build();
-
 	calculate(octree);
-
 	updateAcceleration();
 	updateVelocity();
 	updatePosition();
-
-	//traverse(octree);
 }
