@@ -53,22 +53,22 @@ void BarnesHut::calculateAcceleration(std::unique_ptr<Octree>& root, std::shared
 		}
 
 		// Get reference to bodies
-		Body& bi = *b;
-		Body& bj = *root->body;
+		Body& bm = *b;
+		Body& bn = *root->body;
 
 		// Direction vector
-		Vector bibj = bj.position - bi.position;
+		Vector direction = bn.position - bm.position;
 
 		// Distance
-		double r = 1 / InverseSquare(bibj.x * bibj.x + bibj.y * bibj.y + bibj.z * bibj.z);
+		double r = 1 / InverseSquare(direction.x * direction.x + direction.y * direction.y + direction.z * direction.z);
 
 		// Force
-		double F = (G * bi.mass * bj.mass) / (r * r * r + epsilon);
+		double F = (G * bm.mass * bn.mass) / (r * r * r + epsilon);
 
 		// Acceleration
-		double a = F / bi.mass;
+		double a = F / bm.mass;
 
-		bi.acceleration = bi.acceleration + bibj * a;
+		bm.acceleration = bm.acceleration + direction * a;
 
 		return;
 	}
@@ -81,21 +81,21 @@ void BarnesHut::calculateAcceleration(std::unique_ptr<Octree>& root, std::shared
 	if (width / distance < (theta * theta))
 	{
 		// Get reference
-		Body& bi = *b;
+		Body& bm = *b;
 
 		// Direction vector
-		Vector bic = root->center - bi.position;
+		Vector direction = root->center - bm.position;
 
 		// Distance
-		double r = 1 / InverseSquare(bic.x * bic.x + bic.y * bic.y + bic.z * bic.z);
+		double r = 1 / InverseSquare(direction.x * direction.x + direction.y * direction.y + direction.z * direction.z);
 
 		// Force
-		double F = (G * bi.mass * root->mass) / (r * r * r + epsilon);
+		double F = (G * bm.mass * root->mass) / (r * r * r + epsilon);
 
 		// Acceleration
-		double a = F / bi.mass;
+		double a = F / bm.mass;
 
-		bi.acceleration = bi.acceleration + bic * a;
+		bm.acceleration = bm.acceleration + direction * a;
 
 		return;
 	}

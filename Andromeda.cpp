@@ -10,7 +10,7 @@ int main()
 	}
 
 	// Setup sphere shader
-	Shader sphere = Shader("dependencies/include/resources/default.vert", "dependencies/include/resources/default.frag");
+	Shader sphere = Shader("default.vert", "default.frag");
 
 	// create camere and universe
 	view.camera = std::make_unique<Camera>(0.75f, 16 / 9, 0.1f, 10e5f);

@@ -100,7 +100,7 @@ void View::renderUI()
 	ImGui::SliderFloat("Position maximum", &pmax, 1000e9, 10000e9, "%.0f");
 	ImGui::SliderFloat("Velocity minimum", &vmin, 1e3, 50e3, "%.0f");
 	ImGui::SliderFloat("Velocity maximum", &vmax, 50e3, 100e3, "%.0f");
-	ImGui::SliderInt("Seed", &seed, 1, 100000);
+	ImGui::SliderInt("Seed", &seed, 0, 100000);
 
 	// Generate new universe
 	if (ImGui::Button("Generate"))

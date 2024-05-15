@@ -20,13 +20,13 @@ private:
 	static const unsigned short int WHEIGHT = 1000;
 
 	// Setting variables
-	int objects;
+	int objects = 1;
 	float mass;
-	float pmin;
-	float pmax;
-	float vmin;
-	float vmax;
-	int seed;
+	float pmin = 10e9;
+	float pmax = 1000e9;
+	float vmin = 1e3;
+	float vmax = 50e3;
+	int seed = 0;
 
 	// File path
 	char file[64] = "universe.txt";

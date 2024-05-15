@@ -962,9 +962,6 @@
     <ClInclude Include="dependencies\include\simulation\Body.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="dependencies\include\simulation\Config.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="dependencies\include\simulation\Vector.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -996,6 +993,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="dependencies\include\simulation\DirectSum.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\include\simulation\Constants.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
