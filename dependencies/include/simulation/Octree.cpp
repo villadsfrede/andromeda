@@ -70,11 +70,6 @@ unsigned short int Octree::octant(Vector p)
 
 void Octree::insert(std::shared_ptr<Body> b)
 {
-	if (b == nullptr)
-	{
-		return;
-	}
-
 	// insert body
 	if (body == nullptr && leaf)
 	{
@@ -168,7 +163,6 @@ void Octree::insert(std::shared_ptr<Body> b)
 
 void calculate(std::unique_ptr<Octree>& root)
 {
-
 	if (!root)
 	{
 		return;

@@ -40,11 +40,6 @@ void BarnesHut::build()
 
 void BarnesHut::calculateAcceleration(std::unique_ptr<Octree>& root, std::shared_ptr<Body> b)
 {
-	if (!root)
-	{
-		return;
-	}
-
 	if (root->body)
 	{
 		if (b == root->body)
